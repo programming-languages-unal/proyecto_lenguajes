@@ -14,8 +14,7 @@ public class Main {
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             // Crear el objeto correspondiente al analizador sintáctico que se alimenta a partir del buffer de tokens
             Python3Parser parser = new Python3Parser(tokens);
-            ParseTree tree = parser.single_input(); // Iniciar el analisis sintáctico en la regla inicial: r
-
+            ParseTree tree = parser.file_input(); // Iniciar el analisis sintáctico en la regla inicial: r
         } catch (Exception e){
             System.err.println("Error (Test): " + e);
         }

@@ -133,4 +133,29 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
 
         return super.visitFieldDeclaration(ctx);
     }
+
+    @Override
+    public Object visitLocalVariableDeclaration(Java9Parser.LocalVariableDeclarationContext ctx) {
+        if(ctx.unannType()!=null && ctx.unannType().unannPrimitiveType()!=null
+                && ctx.unannType().unannPrimitiveType().numericType()!=null
+                &&ctx.unannType().unannPrimitiveType().numericType().integralType()!=null
+                &&ctx.unannType().unannPrimitiveType().numericType().integralType().LONG()!=null){
+            if(ctx.variableDeclaratorList()!=null
+                    &&ctx.variableDeclaratorList().variableDeclarator()!=null
+            ){
+                List<Java9Parser.VariableDeclaratorContext>declarations=ctx.variableDeclaratorList().variableDeclarator();
+                for(int i=0;i< declarations.size();i++){
+                    String assignedValue=declarations.get(i).variableInitializer().getText();
+                    int asciiFirstCharacter=(int)assignedValue.charAt(0);
+                    if(assignedValue.charAt(assignedValue.length()-1)=='l' && (asciiFirstCharacter>=48 && asciiFirstCharacter<=57) ){
+                        error("violacion de la regla 4.8.8, no se puede tener l como sufijo de un valor long en la linea: "+declarations.get(i).variableInitializer().getStart().getLine());
+                    }
+
+                }
+            }
+        }
+
+
+        return super.visitLocalVariableDeclaration(ctx);
+    }
 }

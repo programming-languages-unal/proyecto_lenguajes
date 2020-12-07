@@ -28,6 +28,28 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
 
 
     }
+    boolean isConstant(List<Java9Parser.FieldModifierContext>modifiers){
+        boolean isStatic=false;
+        boolean isFinal=false;
+        for (int i=0;i<modifiers.size();i++){
+            if(modifiers.get(i).getText().equals("static")){
+                isStatic=true;
+            }
+            if(modifiers.get(i).getText().equals("final")){
+                isFinal=true;
+            }
+        }
+        return isFinal && isStatic;
+    }
+    boolean isUpperCase(String identifier){
+        for(int i =0;i<identifier.length();i++){
+            int ascii=(int)identifier.charAt(i);
+            if(!(ascii>=65 && ascii<=90 || ascii==95)){
+                return false;
+            }
+        }
+        return true;
+    }
 
     @Override
     public T visitMethodDeclaration(Java9Parser.MethodDeclarationContext ctx) {
@@ -54,8 +76,9 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
                 this.lastLineMarkerAnnotation=modifier_contexts.get(i).annotation().getStart().getLine();
             }
         }
+        this.lastLineMarkerAnnotation=-1;
         if(numAnnotations>1){
-            //this.lastLineMarkerAnnotation=-1;
+
             for (int i =0;i<modifier_contexts.size() ;i++){
 
                 if(modifier_contexts.get(i).annotation()==null ){
@@ -142,6 +165,25 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
         }
 
 
+
+        /***5.2.4***/
+        List<Java9Parser.FieldModifierContext>modifiers=ctx.fieldModifier();
+        List<Java9Parser.VariableDeclaratorContext> declarations=ctx.variableDeclaratorList().variableDeclarator();
+        if(isConstant(modifiers)){
+            for(int i =0;i<declarations.size();i++){
+                if(declarations.get(i).variableDeclaratorId()!=null
+                        &&declarations.get(i).variableDeclaratorId().identifier()!=null){
+                    String identifier=declarations.get(i).variableDeclaratorId().identifier().getText();
+                    if(!isUpperCase(identifier)){
+                        error("error: violacion de la regla 5.2.4, los nombres de las constantes solo pueden usar mayusculas y underscore, linea "+declarations.get(i).variableDeclaratorId().identifier().getStart().getLine());
+                    }
+
+                }
+            }
+        }
+
+
+
         return super.visitFieldDeclaration(ctx);
     }
 
@@ -169,7 +211,10 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
 
         return super.visitLocalVariableDeclaration(ctx);
     }
-
+    /**
+     * 5.2.3
+     *
+     * **/
     @Override
     public Object visitMethodDeclarator(Java9Parser.MethodDeclaratorContext ctx) {
         if(ctx.identifier()!=null){
@@ -180,4 +225,9 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
 
         return super.visitMethodDeclarator(ctx);
     }
+    /***
+     *
+     * 5.2.4
+     * */
+
 }

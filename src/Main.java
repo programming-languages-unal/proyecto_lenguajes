@@ -17,10 +17,12 @@ public class Main {
             ParseTree tree = parser.compilationUnit(); // Iniciar el analisis sintáctico en la regla inicial: r
 
             StyleVisitor<Object> loader=new StyleVisitor<>();
+            ThreeVisitor<Object> threeVisitor=new ThreeVisitor<>();
             try{
-                loader.visit(tree);
+                //loader.visit(tree);
+                threeVisitor.visit(tree);
             }catch (Exception e){
-                System.out.println("Error!");
+                e.printStackTrace();
             }
 
 

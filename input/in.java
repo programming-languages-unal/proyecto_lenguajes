@@ -3,6 +3,8 @@ import jdk.nashorn.internal.ir.annotations.Ignore;
 import javax.xml.ws.Action;
 import javax.xml.ws.ServiceMode;
 import javax.xml.ws.WebFault;
+import java.util.ArrayList;
+import java.util.List;
 
 class OuterClass {
     private static String msg = "GeeksForGeeks";
@@ -88,20 +90,34 @@ class TestFourthRule{
             System.out.println("asasd");//error 4.1.1 no se admiten if sin {}
 
 /**/
-        if(a<0){
+        if(a<0){//no saca error
             System.out.println("ifelse");
         }
 
-        else
+        else//saca error
             System.out.println("else");
 
 /**/
-        if(a<0)
+        if(a<0)//saca error
             System.out.println("filsd");
-        else
+        else//saca error
             System.out.println("sd");
 
+/**/
+        for(int i=0;i<10;i++){//no saca error
+            System.out.println("hsdl");
+        }
 
+        for(int i=0;i<10;i++)//Saca error 4.1.1 por no tener brackets
+            System.out.println("sdsd");
+
+        List<Integer>as=new ArrayList<>();
+        for (int i :as){//no saca error
+            System.out.println("sdsda");
+        }
+
+        for(int i:as)//saca error 4.1.1
+            System.out.println("sdsd");
     }
 }
 /*Sanchez*/

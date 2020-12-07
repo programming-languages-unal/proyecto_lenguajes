@@ -278,4 +278,28 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
             }
         return super.visitIfThenElseStatement(ctx);
     }
+
+    @Override
+    public Object visitBasicForStatement(Java9Parser.BasicForStatementContext ctx) {
+        if(ctx.statement()!=null
+        &&ctx.statement().statementWithoutTrailingSubstatement()!=null
+        &&ctx.statement().statementWithoutTrailingSubstatement().block()==null){
+            error("error: violacion de la regla 4.1.1 no se permiten for sin brackets {}, linea: "+ctx.RPAREN().getSymbol().getLine());
+        }
+
+        return super.visitBasicForStatement(ctx);
+    }
+
+    @Override
+    public Object visitEnhancedForStatement(Java9Parser.EnhancedForStatementContext ctx) {
+        if(ctx.statement()!=null
+                &&ctx.statement().statementWithoutTrailingSubstatement()!=null
+                &&ctx.statement().statementWithoutTrailingSubstatement().block()==null){
+            error("error: violacion de la regla 4.1.1 no se permiten for each sin brackets {}, linea: "+ctx.RPAREN().getSymbol().getLine());
+        }
+
+
+
+        return super.visitEnhancedForStatement(ctx);
+    }
 }

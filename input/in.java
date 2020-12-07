@@ -73,4 +73,15 @@ class TestSecondRule{
     }
 
 }
+class TestThirdRule{
+    void BadMethod(){//error en 5.2.3 porque nombres de metodos deben estar en lowerCamelCase
+
+    }
+    void other_bad_Method(){
+
+    }
+    void goodMethod(){
+
+    }
+}
 /*Sanchez*/

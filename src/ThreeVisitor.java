@@ -13,15 +13,28 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
         //    e.printStackTrace();
         //}
     }
+    boolean verifylowerCamelCase(String word){
+        int first = (int) word.charAt(0);
+        if (!(first >= 97 && first <= 122))
+            return false;
+        int n = word.length();
+        for (int i = 1; i < n; i++) {
+            int asciiChar = (int) word.charAt(i);
+            if (!((asciiChar >= 65 && asciiChar <= 90) || (asciiChar >= 97 && asciiChar <= 122) ))
+                return false;
+        }
+        return true;
+
+
+
+    }
 
     @Override
     public T visitMethodDeclaration(Java9Parser.MethodDeclarationContext ctx) {
         List<Java9Parser.MethodModifierContext> modifier_contexts=ctx.methodModifier();
         int numAnnotations=0;
 
-
-
-
+        /*4.8.5*/
         for (int i =0;i<modifier_contexts.size() ;i++){
 
             if(modifier_contexts.get(i).annotation()!=null && modifier_contexts.get(i).annotation().markerAnnotation()!=null){
@@ -29,10 +42,6 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
                 }
 
             }
-
-
-
-
 
         for (int i =0;i<modifier_contexts.size() ;i++){
 
@@ -61,6 +70,8 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
                 }
             }
         }
+
+
 
         return (T) super.visitMethodDeclaration(ctx);
     }
@@ -157,5 +168,16 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
 
 
         return super.visitLocalVariableDeclaration(ctx);
+    }
+
+    @Override
+    public Object visitMethodDeclarator(Java9Parser.MethodDeclaratorContext ctx) {
+        if(ctx.identifier()!=null){
+            if(!verifylowerCamelCase(ctx.identifier().getText())){
+                error("Violacion de la regla 5.2.3, los nombres de los metodos deben estar en lowerCamelCase sin underscore linea: "+ctx.identifier().getStart().getLine());
+            }
+        }
+
+        return super.visitMethodDeclarator(ctx);
     }
 }

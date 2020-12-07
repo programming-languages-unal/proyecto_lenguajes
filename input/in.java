@@ -79,4 +79,29 @@ class TestThirdRule{
     static int as=0;//no marca problema pues deber ser final y static para ser una constante
 
 }
+
+class TestFourthRule{
+    void metjh(){
+        int a=0;
+        /**/
+        if(a>0)
+            System.out.println("asasd");//error 4.1.1 no se admiten if sin {}
+
+/**/
+        if(a<0){
+            System.out.println("ifelse");
+        }
+
+        else
+            System.out.println("else");
+
+/**/
+        if(a<0)
+            System.out.println("filsd");
+        else
+            System.out.println("sd");
+
+
+    }
+}
 /*Sanchez*/

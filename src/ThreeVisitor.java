@@ -230,4 +230,52 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
      * 5.2.4
      * */
 
+
+    /**
+     * 4.1.1
+     *
+     * */
+    @Override
+    public Object visitIfThenStatement(Java9Parser.IfThenStatementContext ctx) {
+        if(ctx.statement()!=null
+                && ctx.statement().statementWithoutTrailingSubstatement()!=null
+        && ctx.statement().statementWithoutTrailingSubstatement().expressionStatement()!=null){
+            error("error: violacion de la regla 4.1.1, no se permiten if sin abrir y cerrar los brackets {}, linea:"+ctx.RPAREN().getSymbol().getLine());
+        }
+
+
+        return super.visitIfThenStatement(ctx);
+    }
+
+    @Override
+    public Object visitIfThenElseStatement(Java9Parser.IfThenElseStatementContext ctx) {
+
+/*caso en que el if si tiene los brackets*/
+        if(ctx.statementNoShortIf()!=null
+
+        &&ctx.statementNoShortIf().statementWithoutTrailingSubstatement()!=null
+        &&ctx.statementNoShortIf().statementWithoutTrailingSubstatement().block()!=null
+        &&ctx.statementNoShortIf().statementWithoutTrailingSubstatement().block().LBRACE()==null){
+            error("error: violacion de la regla 4.1.1, no se permiten if sin abrir y cerrar los brackets {}, linea:"+ctx.RPAREN().getSymbol().getLine());
+        }
+/*caso en el que el if no tiene los brackets*/
+        if(ctx.statementNoShortIf()!=null
+
+                &&ctx.statementNoShortIf().statementWithoutTrailingSubstatement()!=null
+                &&ctx.statementNoShortIf().statementWithoutTrailingSubstatement().expressionStatement()!=null
+                ){
+
+            error("error: violacion de la regla 4.1.1, no se permiten if sin abrir y cerrar los brackets {}, linea:"+ctx.RPAREN().getSymbol().getLine());
+        }
+
+
+
+        if(ctx.statement()!=null
+                    && ctx.statement().statementWithoutTrailingSubstatement()!=null
+                    && ctx.statement().statementWithoutTrailingSubstatement().expressionStatement()!=null){
+                error("error: violacion de la regla 4.1.1, no se permiten else sin abrir y cerrar los brackets {}, linea:"+ctx.ELSE().getSymbol().getLine());
+
+            }
+        return super.visitIfThenElseStatement(ctx);
+    }
 }

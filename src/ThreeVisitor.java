@@ -314,4 +314,15 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
 
         return super.visitDoStatement(ctx);
     }
+
+    @Override
+    public Object visitWhileStatement(Java9Parser.WhileStatementContext ctx) {
+        if(ctx.statement()!=null
+        &&ctx.statement().statementWithoutTrailingSubstatement()!=null
+        &&ctx.statement().statementWithoutTrailingSubstatement().block()==null){
+            error("error: violacion de la regla 4.1.1  no se puede tener while sin brackets {}, linea: "+ctx.WHILE().getSymbol().getLine());
+        }
+
+        return super.visitWhileStatement(ctx);
+    }
 }

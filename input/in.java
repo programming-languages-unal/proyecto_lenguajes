@@ -125,6 +125,12 @@ class TestFourthRule{
         do//saca error 4.1.1
             System.out.println("sda");
         while(a>0);
+
+        while(a>0){//no saca error
+            System.out.println("asdafg");
+        }
+        while(a>0)//saca error 4.1.1
+            System.out.println("sdsd");
     }
 
 

@@ -118,6 +118,16 @@ class TestFourthRule{
 
         for(int i:as)//saca error 4.1.1
             System.out.println("sdsd");
+
+        do{//no saca error
+            System.out.println("sda");}
+        while(a>0);
+        do//saca error 4.1.1
+            System.out.println("sda");
+        while(a>0);
     }
+
+
+
 }
 /*Sanchez*/

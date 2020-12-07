@@ -302,4 +302,16 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
 
         return super.visitEnhancedForStatement(ctx);
     }
+
+    @Override
+    public Object visitDoStatement(Java9Parser.DoStatementContext ctx) {
+        if(ctx.statement()!=null
+        &&ctx.statement().statementWithoutTrailingSubstatement()!=null
+        &&ctx.statement().statementWithoutTrailingSubstatement().block()==null){
+            error("error: violacion de la regla 4.1.1 , no se permite un do sin brackets {}, linea: "+ctx.DO().getSymbol().getLine());
+        }
+
+
+        return super.visitDoStatement(ctx);
+    }
 }

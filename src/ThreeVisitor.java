@@ -145,6 +145,17 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
 
     @Override
     public Object visitFieldDeclaration(Java9Parser.FieldDeclarationContext ctx) {
+
+
+        if(ctx.variableDeclaratorList().variableDeclarator().size()>1){
+            error("error: violacion de la regla 4.8.2.1, no se pueden declarar varias variables en un statement, linea: "+ctx.start.getLine());
+
+        }
+
+
+
+
+        /**/
         if(ctx.unannType()!=null && ctx.unannType().unannPrimitiveType()!=null
         && ctx.unannType().unannPrimitiveType().numericType()!=null
         &&ctx.unannType().unannPrimitiveType().numericType().integralType()!=null
@@ -189,6 +200,19 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
 
     @Override
     public Object visitLocalVariableDeclaration(Java9Parser.LocalVariableDeclarationContext ctx) {
+
+        if(ctx.variableDeclaratorList().variableDeclarator().size()>1){
+            error("error: violacion de la regla 4.8.2.1, no se pueden declarar varias variables en un statement, linea: "+ctx.start.getLine());
+
+        }
+
+
+
+
+
+
+        /***/
+
         if(ctx.unannType()!=null && ctx.unannType().unannPrimitiveType()!=null
                 && ctx.unannType().unannPrimitiveType().numericType()!=null
                 &&ctx.unannType().unannPrimitiveType().numericType().integralType()!=null

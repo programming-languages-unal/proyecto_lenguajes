@@ -158,9 +158,23 @@ class TestFourthRule{
         } catch (NumberFormatException expectedU) {//esto no saca saca error
 
         }
+
     }
 
 
 
 }
+/*
+*
+* 4.8.2.1 One variable per declaration
+* */
+class LastRule{
+    int a,b;//error 4.8.2.1
+    void me(){
+        int a,b;//error 4.8.2.1
+    }
+
+
+}
+
 /*Sanchez*/

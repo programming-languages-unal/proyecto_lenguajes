@@ -325,4 +325,16 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
 
         return super.visitWhileStatement(ctx);
     }
+
+    @Override
+    public Object visitCatchClause(Java9Parser.CatchClauseContext ctx) {
+        if(ctx.block()!=null
+        &&ctx.block().blockStatements()==null &&!ctx.catchFormalParameter().variableDeclaratorId().identifier().getText().matches("expected[A-Za-z0-9]*")){
+            error("error: violacion de la regla 6.2, no se pueden tener clausulas catch sin ningun statement, linea: "+ctx.CATCH().getSymbol().getLine());
+        }
+
+
+
+        return super.visitCatchClause(ctx);
+    }
 }

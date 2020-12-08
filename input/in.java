@@ -131,6 +131,33 @@ class TestFourthRule{
         }
         while(a>0)//saca error 4.1.1
             System.out.println("sdsd");
+        /*
+        *
+        *
+        *
+        6.2*
+        */
+        int i = 0;
+        try {
+
+            i=6;
+        } catch (NumberFormatException ok) {
+            i=10;
+        }
+
+        try {
+
+            i=6;
+        } catch (NumberFormatException ok) {//esto saca error 6.2
+
+        }
+
+        try {
+
+            i=6;
+        } catch (NumberFormatException expectedU) {//esto no saca saca error
+
+        }
     }
 
 

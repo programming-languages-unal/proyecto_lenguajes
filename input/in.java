@@ -258,7 +258,8 @@ class Pepe{
 
 
 }
-class P <T extends A & MyInterface>{
+class P <T extends A &
+        MyInterface>{
 
 }
 /*Sanchez*/

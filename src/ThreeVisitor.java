@@ -554,4 +554,15 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
 
         return super.visitCatchType(ctx);
     }
+
+    @Override
+    public Object visitAdditionalBound(Java9Parser.AdditionalBoundContext ctx) {
+        if(ctx.BITAND()!=null&&ctx.interfaceType()!=null){
+            if(ctx.BITAND().getSymbol().getLine()!=ctx.interfaceType().getStart().getLine()){
+                error("error: violacion de la regla 4.5, el salto de linea ir antes de &, linea :"+ctx.BITAND().getSymbol().getLine());
+            }
+        }
+
+        return super.visitAdditionalBound(ctx);
+    }
 }

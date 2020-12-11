@@ -142,7 +142,7 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
             this.mapClassFunctions.put(ctx.identifier().getText(),functions);
         }
 
-
+/*Si hereda de otra clase*/
         if(ctx.superclass()!=null
         &&ctx.superclass().classType()!=null
         ){
@@ -193,6 +193,61 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
 
         }
 
+
+        /*Si implementa una interfaz*/
+
+        if(ctx.superinterfaces()!=null&&ctx.superinterfaces().interfaceTypeList()!=null
+        ){
+            List<Java9Parser.InterfaceTypeContext> interfaceTypes=ctx.superinterfaces().interfaceTypeList().interfaceType();
+
+            for(int a=0;a<interfaceTypes.size();a++){
+                String parentInterface=interfaceTypes.get(a).classType().identifier().getText();
+
+
+                List<String>parentFunctions=this.mapClassFunctions.get(parentInterface);
+                String childName=ctx.identifier().getText();
+                List<String>childMethods=this.mapClassFunctions.get(childName);
+                List<String>commonMethods=parentFunctions.stream().filter(childMethods:: contains).collect(Collectors.toList());
+
+                List<Java9Parser.ClassBodyDeclarationContext> declarations=ctx.classBody().classBodyDeclaration();
+                for (int i=0;i<declarations.size();i++){
+                    if(declarations.get(i).classMemberDeclaration()!=null
+                            &&declarations.get(i).classMemberDeclaration().methodDeclaration()!=null){
+                        Java9Parser.MethodDeclarationContext method=declarations.get(i).classMemberDeclaration().methodDeclaration();
+                        if(method.methodHeader()!=null &&method.methodHeader().methodDeclarator()!=null){
+                            String childMethodName=method.methodHeader().methodDeclarator().identifier().getText();
+                            if(commonMethods.contains(childMethodName)){
+
+                                if(method.methodModifier().size()==0){
+                                    error("error: violacion de la regla 6.1, el metodo "+childMethodName+" es implementado  y no cuenta con anotaciones (Debe contar con la anotacion Override), linea: "+method.getStart().getLine());
+
+                                }
+                                else{
+                                    boolean areOverride=false;
+                                    for(int j=0;j<method.methodModifier().size();j++){
+                                        if(method.methodModifier().get(j).annotation()!=null
+                                                &&method.methodModifier().get(j).annotation().markerAnnotation()!=null&&
+                                                method.methodModifier().get(j).annotation().markerAnnotation().typeName()!=null
+                                                &&method.methodModifier().get(j).annotation().markerAnnotation().typeName().identifier()!=null
+                                                &&method.methodModifier().get(j).annotation().markerAnnotation().typeName().identifier().getText().equals("Override")){
+                                            areOverride=true;
+
+
+                                        }
+                                    }
+                                    if(!areOverride){
+                                        error("error: violacion de la regla 6.1,el metodo "+childMethodName+" es implementado y no cuenta con la anotacion @Override, linea: "+method.getStart().getLine());
+                                    }
+
+                                }
+
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
         return super.visitNormalClassDeclaration(ctx);
     }
 
@@ -437,5 +492,29 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
 
 
         return super.visitCatchClause(ctx);
+    }
+
+    @Override
+    public Object visitNormalInterfaceDeclaration(Java9Parser.NormalInterfaceDeclarationContext ctx) {
+        ArrayList<String>methods=new ArrayList<>();
+        String interfaceName=ctx.identifier().getText();
+        if(ctx.interfaceBody()!=null
+        &&ctx.interfaceBody().interfaceMemberDeclaration()!=null){
+            for (int i=0;i<ctx.interfaceBody().interfaceMemberDeclaration().size();i++){
+                if(ctx.interfaceBody().interfaceMemberDeclaration().get(i).interfaceMethodDeclaration()!=null
+                &&ctx.interfaceBody().interfaceMemberDeclaration().get(i).interfaceMethodDeclaration().methodHeader()!=null
+                &&ctx.interfaceBody().interfaceMemberDeclaration().get(i).interfaceMethodDeclaration().methodHeader().methodDeclarator()!=null){
+                    String nameMethod=ctx.interfaceBody().interfaceMemberDeclaration().get(i).interfaceMethodDeclaration().methodHeader().methodDeclarator().identifier().getText();
+;                   methods.add(nameMethod);
+                }
+            }
+            this.mapClassFunctions.put(interfaceName,methods);
+
+        }
+
+
+
+
+        return super.visitNormalInterfaceDeclaration(ctx);
     }
 }

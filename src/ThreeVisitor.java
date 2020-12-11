@@ -541,4 +541,17 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
 
         return super.visitMethodInvocation(ctx);
     }
+
+    @Override
+    public Object visitCatchType(Java9Parser.CatchTypeContext ctx) {
+        for(int i=0;i<ctx.BITOR().size();i++){
+
+            if(ctx.BITOR().get(i).getSymbol().getLine()!=ctx.classType().get(i).getStart().getLine()){
+                error("error: violacion de la regla 4.5, el salto de linea debe ir antes de | ,linea :"+ctx.BITOR().get(i).getSymbol().getLine());
+            }
+
+        }
+
+        return super.visitCatchType(ctx);
+    }
 }

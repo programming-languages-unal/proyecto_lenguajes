@@ -1,5 +1,7 @@
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 
+import javax.xml.bind.SchemaOutputResolver;
 import javax.xml.ws.Action;
 import javax.xml.ws.ServiceMode;
 import javax.xml.ws.WebFault;
@@ -237,17 +239,26 @@ class A{
 class Pepe{
     A s=new A();
     void m(){
+        s.a();//no saca error
         s.//saca error 4.5
                 a();
 
 
         try{
             s.a();
-        }catch(ArithmeticException | NullPointerException e){
+        }catch(ArithmeticException |//saca error 4.5
+                NullPointerException e){
+            System.out.println("catch");
+        }catch(IndexOutOfBoundsException//no saca error
+                | SecurityException e){
+            System.out.println("sd");
 
         }
     }
 
+
+}
+class P <T extends A & MyInterface>{
 
 }
 /*Sanchez*/

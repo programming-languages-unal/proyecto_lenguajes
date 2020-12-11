@@ -1,7 +1,12 @@
+import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class ThreeVisitor<T> extends Java9BaseVisitor {
     private int lastLineMarkerAnnotation;
+    private TreeMap<String,List<String>> mapClassFunctions=new TreeMap<>();
     public ThreeVisitor(){
         this.lastLineMarkerAnnotation=-1;
     }
@@ -117,7 +122,76 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
         }
 
 
+/*6.1**/
+        /*guardamos en mapClassFunctions como llave el nombre de la clase y como valor un
+        * ArrayList con los nombres de sus metodos*/
+        ArrayList<String>functions=new ArrayList<>();
+        if(ctx.classBody()!=null
+        &&ctx.classBody().classBodyDeclaration()!=null){
+            List<Java9Parser.ClassBodyDeclarationContext> declarations=ctx.classBody().classBodyDeclaration();
+            for (int i=0;i<declarations.size();i++){
+                if(declarations.get(i).classMemberDeclaration()!=null
+                &&declarations.get(i).classMemberDeclaration().methodDeclaration()!=null){
+                    Java9Parser.MethodDeclarationContext method=declarations.get(i).classMemberDeclaration().methodDeclaration();
+                    if(method.methodHeader()!=null &&method.methodHeader().methodDeclarator()!=null){
+                        functions.add(method.methodHeader().methodDeclarator().identifier().getText());
+                    }
+                }
 
+            }
+            this.mapClassFunctions.put(ctx.identifier().getText(),functions);
+        }
+
+
+        if(ctx.superclass()!=null
+        &&ctx.superclass().classType()!=null
+        ){
+
+            String parentName=ctx.superclass().classType().identifier().getText();
+            List<String>parentFunctions=this.mapClassFunctions.get(parentName);
+            String childName=ctx.identifier().getText();
+            List<String>childMethods=this.mapClassFunctions.get(childName);
+            List<String>commonMethods=parentFunctions.stream().filter(childMethods:: contains).collect(Collectors.toList());
+
+            List<Java9Parser.ClassBodyDeclarationContext> declarations=ctx.classBody().classBodyDeclaration();
+            for (int i=0;i<declarations.size();i++){
+                if(declarations.get(i).classMemberDeclaration()!=null
+                        &&declarations.get(i).classMemberDeclaration().methodDeclaration()!=null){
+                    Java9Parser.MethodDeclarationContext method=declarations.get(i).classMemberDeclaration().methodDeclaration();
+                    if(method.methodHeader()!=null &&method.methodHeader().methodDeclarator()!=null){
+                      String childMethodName=method.methodHeader().methodDeclarator().identifier().getText();
+                      if(commonMethods.contains(childMethodName)){
+
+                          if(method.methodModifier().size()==0){
+                              error("error: violacion de la regla 6.1, el metodo "+childMethodName+" es heredado  y no cuenta con anotaciones (Debe contar con la anotacion Override), linea: "+method.getStart().getLine());
+
+                          }
+                          else{
+                              boolean areOverride=false;
+                              for(int j=0;j<method.methodModifier().size();j++){
+                                  if(method.methodModifier().get(j).annotation()!=null
+                                          &&method.methodModifier().get(j).annotation().markerAnnotation()!=null&&
+                                  method.methodModifier().get(j).annotation().markerAnnotation().typeName()!=null
+                                  &&method.methodModifier().get(j).annotation().markerAnnotation().typeName().identifier()!=null
+                                          &&method.methodModifier().get(j).annotation().markerAnnotation().typeName().identifier().getText().equals("Override")){
+                                      areOverride=true;
+
+
+                                  }
+                              }
+                              if(!areOverride){
+                                  error("error: violacion de la regla 6.1,el metodo "+childMethodName+" es heredado y no cuenta con la anotacion @Override, linea: "+method.getStart().getLine());
+                              }
+
+                          }
+
+                      }
+                    }
+                }
+
+            }
+
+        }
 
         return super.visitNormalClassDeclaration(ctx);
     }
@@ -138,6 +212,9 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
                 this.lastLineMarkerAnnotation=modifier_contexts.get(i).annotation().getStart().getLine();
             }
         }
+
+
+
 
 
         return super.visitConstructorDeclaration(ctx);

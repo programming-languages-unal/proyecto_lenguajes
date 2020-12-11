@@ -181,4 +181,24 @@ class LastRule{
 
 }
 
+
+
+class Parent {
+    void greeting(){
+
+    }
+    void foo(){}
+    void fooA(){}
+
+}
+class Child extends Parent{
+
+    @Override
+    void greeting(){}
+    @Deprecated
+    void foo(){}
+
+    void fooA(){}
+}
+
 /*Sanchez*/

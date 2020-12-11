@@ -85,7 +85,7 @@ class TestThirdRule{
 }
 
 class TestFourthRule{
-    void metjh(){
+    void Metjh(){///error 5.2.3 por no estar en lowerCamelCase
         int a=0;
         /**/
         if(a>0)

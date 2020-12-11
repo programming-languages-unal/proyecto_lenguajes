@@ -225,4 +225,29 @@ class ChildInterface implements MyInterface,Po{
 
     }
 }
+
+
+/*4.5*/
+class A{
+    void a(){
+        Integer.parseInt("sdsd");
+    }
+
+}
+class Pepe{
+    A s=new A();
+    void m(){
+        s.//saca error 4.5
+                a();
+
+
+        try{
+            s.a();
+        }catch(ArithmeticException | NullPointerException e){
+
+        }
+    }
+
+
+}
 /*Sanchez*/

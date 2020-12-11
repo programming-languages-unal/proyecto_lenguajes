@@ -1,3 +1,6 @@
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -516,5 +519,26 @@ public class ThreeVisitor<T> extends Java9BaseVisitor {
 
 
         return super.visitNormalInterfaceDeclaration(ctx);
+    }
+
+    @Override
+    public Object visitMethodInvocation(Java9Parser.MethodInvocationContext ctx) {
+        List<ParseTree> children=ctx.children;
+        //System.out.println(".............................");
+    /*for(int i =0;i<children.size();i++){
+        //System.out.println(children.get(i).getText());
+        if(children.get(i).getText().equals(".")){
+
+        }
+    }*/
+        if(ctx.DOT().size()!=0){
+            if(ctx.DOT().get(0).getSymbol().getLine()!=ctx.identifier().getStart().getLine()){
+                error("error: violacion de la regla 4.5,el salto de linea debe ir antes del punto, linea: "+ctx.DOT().get(0).getSymbol().getLine());
+
+            }
+        }
+
+
+        return super.visitMethodInvocation(ctx);
     }
 }

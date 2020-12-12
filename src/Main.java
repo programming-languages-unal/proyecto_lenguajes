@@ -22,7 +22,7 @@ public class Main {
                 //loader.visit(tree);
                 secondVisitor.visit(tree);
             }catch (Exception e){
-                System.out.println("Error!");
+                System.out.println(e);
             }
 
 

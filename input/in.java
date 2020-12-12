@@ -20,16 +20,18 @@ class O {
 
     int Venus() {
         //String args2 [];
+        int loleOne = 0;
         if(true){
 
         } else {
 
         }
+        loleOne++;
         try {
 
         } catch (Exception e){
 
         }
-        return  0;
+        return 0;
     }
 }

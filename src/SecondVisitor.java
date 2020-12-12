@@ -1,13 +1,12 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class SecondVisitor <T> extends Java9BaseVisitor {
 
     Boolean isclass = false;
     private List<Java9Parser.FieldModifierContext> fieldModifierContexts;
+
+    Map<String, Integer> LocalVariables = new HashMap<String, Integer>();;
 
 
     void error(String error) {
@@ -218,11 +217,40 @@ public class SecondVisitor <T> extends Java9BaseVisitor {
                 if(ctx.variableModifier(i).FINAL() == null){
                     String identifier = ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().identifier().getText();
                     if(!verifylowerCamelCase(identifier)){
-                        error("no hay lower, linea: "+ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().getStart().getLine());
+                        error("error: violacion de la regla 5.2.5 todas las declaraciones no constantes deben estar en  lowerCamelCase, linea: "+ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().getStart().getLine());
                     }
                 }
             }
         }
         return  super.visitLocalVariableDeclaration(ctx);
     }
+
+    /***
+     *
+     * 4.8.2.2
+     * */
+
+    @Override
+    public Object visitMethodDeclaration(Java9Parser.MethodDeclarationContext ctx){
+        LocalVariables = new HashMap<String, Integer>();
+        return super.visitMethodDeclaration(ctx);
+    }
+
+    @Override
+    public Object visitIdentifier(Java9Parser.IdentifierContext ctx){
+        if(!LocalVariables.containsKey(ctx.getText())){
+            LocalVariables.put(ctx.getText(),ctx.getStart().getLine());
+        }else{
+            int origin = LocalVariables.get(ctx.getText());
+            if(ctx.getStart().getLine() - origin > 10){
+                error("error: violacion de la regla 4.8.2.2 la variable local "+ctx.getText()+" fue utilizada muy lejos de su primer uso, linea: "+ctx.getStart().getLine());
+            }
+        }
+        return super.visitIdentifier(ctx);
+    }
+
+
+
+
+
 }

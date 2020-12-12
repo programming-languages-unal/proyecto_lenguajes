@@ -1,18 +1,21 @@
-class o {
+class O {
 
-    int l = 3;
-    int l2 = 33;
+    final int LOWER = 3;
+    static int eedArn = 33;
     String[] args;
 
     int Mars() {
-        int lole = 0;
-        switch (lole) {
+
+        final int LoleOne = 0;
+        int loleTwo = 0;
+
+        switch (LoleOne) {
             case 1:
             case 2:
             case 3:
             default:
         }
-        return lole;
+        return LoleOne;
     }
 
     int Venus() {

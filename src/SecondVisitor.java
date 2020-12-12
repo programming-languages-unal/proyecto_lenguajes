@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class SecondVisitor <T> extends Java9BaseVisitor {
 
     Boolean isclass = false;
+    private List<Java9Parser.FieldModifierContext> fieldModifierContexts;
 
 
     void error(String error) {
@@ -16,6 +17,19 @@ public class SecondVisitor <T> extends Java9BaseVisitor {
         //} catch (IllegalAccessException e) {
         //    e.printStackTrace();
         //}
+    }
+
+    boolean verifylowerCamelCase(String word){
+        int first = (int) word.charAt(0);
+        if (!(first >= 97 && first <= 122))
+            return false;
+        int n = word.length();
+        for (int i = 1; i < n; i++) {
+            int asciiChar = (int) word.charAt(i);
+            if (!((asciiChar >= 65 && asciiChar <= 90) || (asciiChar >= 97 && asciiChar <= 122) ))
+                return false;
+        }
+        return true;
     }
 
     @Override
@@ -166,5 +180,49 @@ public class SecondVisitor <T> extends Java9BaseVisitor {
              error("error: violacion de la regla 4.8.4.3 Cada switch debe tener una sentencia default: "+ctx.switchLabel(ctx.switchLabel().size()-1).CASE().getSymbol().getLine());
          }
         return super.visitSwitchBlock(ctx);
+    }
+
+    /***
+     *
+     * 5.2.5
+     * */
+    @Override
+    public Object visitFieldDeclaration(Java9Parser.FieldDeclarationContext ctx){
+       if(ctx.fieldModifier().isEmpty()){
+           String identifier = ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().identifier().getText();
+           if(!verifylowerCamelCase(identifier)){
+               error("error: violacion de la regla 5.2.5 todas las declaraciones no constantes deben estar en  lowerCamelCase, linea: "+ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().getStart().getLine());
+           }
+        }else{
+            for(int i=0; i<ctx.fieldModifier().size(); i++){
+                if(ctx.fieldModifier(i).FINAL() == null){
+                    String identifier = ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().identifier().getText();
+                    if(!verifylowerCamelCase(identifier)){
+                        error("no hay lower, linea: "+ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().getStart().getLine());
+                    }
+                }
+            }
+        }
+        return super.visitFieldDeclaration(ctx);
+    }
+
+    @Override
+    public Object visitLocalVariableDeclaration(Java9Parser.LocalVariableDeclarationContext ctx){
+        if(ctx.variableModifier().isEmpty()){
+            String identifier = ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().identifier().getText();
+            if(!verifylowerCamelCase(identifier)){
+                error("error: violacion de la regla 5.2.5 todas las declaraciones no constantes deben estar en  lowerCamelCase, linea: "+ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().getStart().getLine());
+            }
+        }else{
+            for(int i=0; i<ctx.variableModifier().size(); i++){
+                if(ctx.variableModifier(i).FINAL() == null){
+                    String identifier = ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().identifier().getText();
+                    if(!verifylowerCamelCase(identifier)){
+                        error("no hay lower, linea: "+ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().getStart().getLine());
+                    }
+                }
+            }
+        }
+        return  super.visitLocalVariableDeclaration(ctx);
     }
 }

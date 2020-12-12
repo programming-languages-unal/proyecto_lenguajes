@@ -1,18 +1,21 @@
 class o {
+
     int l = 3;
     int l2 = 33;
+    String[] args;
 
-    int Eola() {
-        return 3;
-    }
-
-    int Venus() {
+    int Mars() {
         int lole = 0;
         switch (lole) {
             case 1:
             case 2:
             case 3:
         }
+        return lole;
+    }
+
+    int Venus() {
+        //String args2 [];
         if(true){
 
         } else {
@@ -20,7 +23,7 @@ class o {
         }
         try {
 
-        }    catch (Exception e){
+        } catch (Exception e){
 
         }
         return  0;

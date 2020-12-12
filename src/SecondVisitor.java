@@ -137,4 +137,16 @@ public class SecondVisitor <T> extends Java9BaseVisitor {
         }
         return super.visitNormalClassDeclaration(ctx);
     }
+
+    /***
+     *
+     * 4.8.3.2
+     * */
+    @Override
+    public Object visitVariableDeclaratorId(Java9Parser.VariableDeclaratorIdContext ctx){
+        if(ctx.dims() != null){
+            error("error: violacion de la regla [], linea: "+ctx.dims().LBRACK().get(0).getSymbol().getLine());
+        }
+        return super.visitVariableDeclaratorId(ctx);
+    }
 }

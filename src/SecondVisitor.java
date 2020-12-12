@@ -1,5 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,11 +20,82 @@ public class SecondVisitor <T> extends Java9BaseVisitor {
 
     @Override
     public  Object visitCompilationUnit(Java9Parser.CompilationUnitContext ctx){
-        try{
-            Scanner input = new Scanner(new File("input/in.java"));
-            String answer = input.nextLine();
-            System.out.println(answer);
-        } catch (FileNotFoundException e) {
+        try {
+            /***
+             *
+             * 4.1.2
+             * */
+            File file = new File("input/in.java");
+            BufferedReader br = new BufferedReader(new FileReader(file));
+
+            String str;
+            int counter = 1;
+            while((str = br.readLine()) != null) {
+                char[] ch = new char[str.length()];
+                for (int i = 0; i < str.length(); i++) {
+                    ch[i] = str.charAt(i);
+                    if((int) str.charAt(i) == 123 && i != str.length() - 1){
+                        System.out.println("{ debe ser seguido de un salto de linea, linea: "+ counter);
+                        break;
+                    }
+                    if((int) str.charAt(i) == 123 && i == 0){
+                        System.out.println("{ no debe tener un salto de linea antes, linea: "+ counter);
+                        break;
+                    }
+                    if((int) str.charAt(i) == 123){
+                        boolean isspace = true;
+                        for(int j = i-1; j > 0; j--){
+                            if(str.charAt(j) != 32){
+                                isspace = false;
+                                break;
+                            }
+                        }
+                        if(isspace){
+                            System.out.println("{ no debe tener un salto de linea antes, linea: "+ counter);
+                            break;
+                        }
+                    }
+                    if((int) str.charAt(i) == 125 && i != 0){
+                        boolean isspace = false;
+                        for(int j = i-1; j > 0; j--){
+                            if(str.charAt(j) != 32){
+                                isspace = true;
+                                break;
+                            }
+                        }
+                        if(isspace){
+                            System.out.println("} debe tener un salto de linea antes, linea: "+ counter);
+                            break;
+                        }
+                    }
+                    if((int) str.charAt(i) == 125){
+                        boolean isspace = false;
+                        for(int j = i+1; j < str.length(); j++){
+                            if(str.charAt(j) != 32 && str.charAt(j) != 101 && str.charAt(j) != 44 && str.charAt(j) != 99){
+                                isspace = true;
+                                break;
+                            }
+                            if(str.charAt(j) == 101){
+                                if(str.charAt(j+1) == 108 && str.charAt(j+2) == 115 && str.charAt(j+3) == 101){
+                                    break;
+                                }
+                            }
+                            if(str.charAt(j) == 99){
+                                if(str.charAt(j+1) == 97 && str.charAt(j+2) == 116 && str.charAt(j+3) == 99 && str.charAt(j+4) == 104){
+                                    break;
+                                }
+                            }
+                        }
+                        if(isspace){
+                            System.out.println("} debe tener un salto de linea despues si no termina un bloque: "+ counter);
+                            break;
+                        }
+                    }
+                }
+                counter++;
+            }
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return super.visitCompilationUnit(ctx);

@@ -35,11 +35,11 @@ public class SecondVisitor <T> extends Java9BaseVisitor {
                 for (int i = 0; i < str.length(); i++) {
                     ch[i] = str.charAt(i);
                     if((int) str.charAt(i) == 123 && i != str.length() - 1){
-                        System.out.println("{ debe ser seguido de un salto de linea, linea: "+ counter);
+                        error("{ debe ser seguido de un salto de linea, linea: "+ counter);
                         break;
                     }
                     if((int) str.charAt(i) == 123 && i == 0){
-                        System.out.println("{ no debe tener un salto de linea antes, linea: "+ counter);
+                        error("{ no debe tener un salto de linea antes, linea: "+ counter);
                         break;
                     }
                     if((int) str.charAt(i) == 123){
@@ -51,7 +51,7 @@ public class SecondVisitor <T> extends Java9BaseVisitor {
                             }
                         }
                         if(isspace){
-                            System.out.println("{ no debe tener un salto de linea antes, linea: "+ counter);
+                            error("{ no debe tener un salto de linea antes, linea: "+ counter);
                             break;
                         }
                     }
@@ -64,7 +64,7 @@ public class SecondVisitor <T> extends Java9BaseVisitor {
                             }
                         }
                         if(isspace){
-                            System.out.println("} debe tener un salto de linea antes, linea: "+ counter);
+                            error("} debe tener un salto de linea antes, linea: "+ counter);
                             break;
                         }
                     }
@@ -87,7 +87,7 @@ public class SecondVisitor <T> extends Java9BaseVisitor {
                             }
                         }
                         if(isspace){
-                            System.out.println("} debe tener un salto de linea despues si no termina un bloque: "+ counter);
+                            error("} debe tener un salto de linea despues si no termina un bloque: "+ counter);
                             break;
                         }
                     }
@@ -145,8 +145,26 @@ public class SecondVisitor <T> extends Java9BaseVisitor {
     @Override
     public Object visitVariableDeclaratorId(Java9Parser.VariableDeclaratorIdContext ctx){
         if(ctx.dims() != null){
-            error("error: violacion de la regla [], linea: "+ctx.dims().LBRACK().get(0).getSymbol().getLine());
+            error("error: violacion de la regla 4.8.3.2 Los brackets forman parte del tipo, no de la variable, linea: "+ctx.dims().LBRACK().get(0).getSymbol().getLine());
         }
         return super.visitVariableDeclaratorId(ctx);
+    }
+
+    /***
+     *
+     * 4.8.4.3
+     * */
+    @Override
+    public Object visitSwitchBlock(Java9Parser.SwitchBlockContext ctx){
+         boolean isdefault = false;
+         for(int i=0; i<ctx.switchLabel().size(); i++){
+             if(ctx.switchLabel(i).DEFAULT() != null){
+                 isdefault = true;
+             }
+         }
+         if(!isdefault){
+             error("error: violacion de la regla 4.8.4.3 Cada switch debe tener una sentencia default: "+ctx.switchLabel(ctx.switchLabel().size()-1).CASE().getSymbol().getLine());
+         }
+        return super.visitSwitchBlock(ctx);
     }
 }

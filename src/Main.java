@@ -22,8 +22,6 @@ public class Main {
             }catch (Exception e){
                 System.out.println("Error!");
             }
-
-
         } catch (Exception e){
             System.err.println("Error (Test): " + e);
         }

@@ -1,6 +1,9 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 public class SecondVisitor <T> extends Java9BaseVisitor {
 
@@ -17,8 +20,24 @@ public class SecondVisitor <T> extends Java9BaseVisitor {
     }
 
     @Override
+    public  Object visitCompilationUnit(Java9Parser.CompilationUnitContext ctx){
+        try{
+            Scanner input = new Scanner(new File("input/in.java"));
+            String answer = input.nextLine();
+            System.out.println(answer);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return super.visitCompilationUnit(ctx);
+    }
+
+    @Override
     public Object visitNormalClassDeclaration(Java9Parser.NormalClassDeclarationContext ctx) {
 
+        /***
+         *
+         * 3.4.1
+         * */
         if (ctx.identifier() != null) {
             if(isclass == false){
                 isclass = true;
@@ -28,6 +47,10 @@ public class SecondVisitor <T> extends Java9BaseVisitor {
 
         }
 
+        /***
+         *
+         * 3.4.2
+         * */
         if (ctx.classBody().classBodyDeclaration(0) != null) {
             int test = 0;
             List<String> list = new ArrayList<String>();
@@ -42,6 +65,6 @@ public class SecondVisitor <T> extends Java9BaseVisitor {
                 error("error: violacion de la regla 3.4.2 Los metodos deben estan en orden alfabetico, orden recomendado "+ sortedlsit);
             }
         }
-        return null;
+        return super.visitNormalClassDeclaration(ctx);
     }
 }

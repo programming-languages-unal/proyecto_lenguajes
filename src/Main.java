@@ -26,7 +26,7 @@ public class Main {
 
             //FileInputStream instream = null;
             PrintStream outstream = null;
-            
+
             try {
                 //instream =  new  FileInputStream (INPUT);
                 outstream = new PrintStream(new FileOutputStream("output.txt"));

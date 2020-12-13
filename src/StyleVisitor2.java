@@ -1,13 +1,11 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class StyleVisitor2 <T> extends Java9BaseVisitor {
 
-    Boolean isclass = false;
     private List<Java9Parser.FieldModifierContext> fieldModifierContexts;
+
+    Map<String, Integer> LocalVariables = new HashMap<String, Integer>();;
 
 
     void error(String error) {
@@ -32,6 +30,28 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
         return true;
     }
 
+    boolean isNotConstant(List<Java9Parser.FieldModifierContext>modifiers){
+        boolean isFinal=false;
+        for (int i=0;i<modifiers.size();i++){
+
+            if(modifiers.get(i).getText().equals("final")){
+                isFinal=true;
+            }
+        }
+        return isFinal;
+    }
+
+    boolean isNotConstant2(List<Java9Parser.VariableModifierContext>modifiers){
+        boolean isFinal=false;
+        for (int i=0;i<modifiers.size();i++){
+
+            if(modifiers.get(i).getText().equals("final")){
+                isFinal=true;
+            }
+        }
+        return isFinal;
+    }
+
     @Override
     public  Object visitCompilationUnit(Java9Parser.CompilationUnitContext ctx){
         try {
@@ -49,13 +69,18 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
                 for (int i = 0; i < str.length(); i++) {
                     ch[i] = str.charAt(i);
                     if((int) str.charAt(i) == 123 && i != str.length() - 1 ){
-                        if((int) str.charAt(i+1) != 125 && (int) str.charAt(i+1) != 47){
-                            error("{ debe ser seguido de un salto de linea, linea: "+ counter);
-                            break;
+                        for(int j = i+1; j < str.length()-1; j++){
+                            if((int) str.charAt(j) == 47){
+                                break;
+                            }
+                            if((int) str.charAt(j+1) != 125 && (int) str.charAt(j+1) != 47 && (int) str.charAt(j+1) != 32){
+                                error("<linea:"+counter+"> Violación de la regla 4.1.2, { debe ser seguido de un salto de linea");
+                                break;
+                            }
                         }
                     }
                     if((int) str.charAt(i) == 123 && i == 0){
-                        error("{ no debe tener un salto de linea antes, linea: "+ counter);
+                        error("<linea:"+counter+"> Violación de la regla 4.1.2, { no debe tener un salto de linea antes");
                         break;
                     }
                     if((int) str.charAt(i) == 123){
@@ -67,7 +92,7 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
                             }
                         }
                         if(isspace){
-                            error("{ no debe tener un salto de linea antes, linea: "+ counter);
+                            error("<linea:"+counter+"> Violación de la regla 4.1.2, { no debe tener un salto de linea antes");
                             break;
                         }
                     }
@@ -82,11 +107,16 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
                             }
                         }
                         if(isspace){
-                            error("} debe tener un salto de linea o un { antes, linea: "+ counter);
+                            error("<linea:"+counter+"> Violación de la regla 4.1.2, } debe tener un salto de linea o un { antes");
                             break;
                         }
                     }
                     if((int) str.charAt(i) == 125){
+                        if(i != str.length()-1){
+                            if((int) str.charAt(i+1) == 59 || (int) str.charAt(i+1) == 47){
+                                break;
+                            }
+                        }
                         boolean isspace = false;
                         for(int j = i+1; j < str.length(); j++){
                             if(str.charAt(j) != 32 && str.charAt(j) != 101 && str.charAt(j) != 44 && str.charAt(j) != 99){
@@ -105,10 +135,11 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
                             }
                         }
                         if(isspace){
-                            error("} debe tener un salto de linea despues si no termina un bloque: "+ counter);
+                            error("<linea:"+counter+"> Violación  de la regla 4.1.2, } debe tener un salto de linea despues si no termina un bloque");
                             break;
                         }
                     }
+
                 }
                 counter++;
             }
@@ -124,33 +155,21 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
 
         /***
          *
-         * 3.4.1
-         * */
-        if (ctx.identifier() != null) {
-            if(isclass == false){
-                isclass = true;
-            }else{
-                error("error: violacion de la regla 3.4.1 Cada clase de nivel superior reside en un archivo fuente propio, linea: "+ ctx.CLASS().getSymbol().getLine());
-            }
-
-        }
-
-        /***
-         *
          * 3.4.2
          * */
         if (ctx.classBody().classBodyDeclaration(0) != null) {
-            int test = 0;
+            int line = 0;
             List<String> list = new ArrayList<String>();
             for(int i=0; i<ctx.classBody().classBodyDeclaration().size(); i++){
-                if(ctx.classBody().classBodyDeclaration(i).classMemberDeclaration()!=null && ctx.classBody().classBodyDeclaration(i).classMemberDeclaration().methodDeclaration() != null){
+                if(ctx.classBody().classBodyDeclaration(i).classMemberDeclaration().methodDeclaration() != null) {
+                    line = ctx.classBody().classBodyDeclaration(i).classMemberDeclaration().methodDeclaration().methodHeader().methodDeclarator().identifier().getStart().getLine();
                     list.add(ctx.classBody().classBodyDeclaration(i).classMemberDeclaration().methodDeclaration().methodHeader().methodDeclarator().identifier().getText());
                 }
             }
             List<String> sortedlsit = new ArrayList<String>(list);
             Collections.sort(sortedlsit);
             if(!sortedlsit.equals(list)){
-                error("error: violacion de la regla 3.4.2 Los metodos deben estan en orden alfabetico, orden recomendado "+ sortedlsit);
+                error("<linea:"+line+"> Violación de la regla 3.4.2, Los metodos deben estan en orden alfabetico, orden recomendado: "+ sortedlsit);
             }
         }
         return super.visitNormalClassDeclaration(ctx);
@@ -163,7 +182,7 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
     @Override
     public Object visitVariableDeclaratorId(Java9Parser.VariableDeclaratorIdContext ctx){
         if(ctx.dims() != null){
-            error("error: violacion de la regla 4.8.3.2 Los brackets forman parte del tipo, no de la variable, linea: "+ctx.dims().LBRACK().get(0).getSymbol().getLine());
+            error("<linea:"+ctx.dims().LBRACK().get(0).getSymbol().getLine()+"> Violación de la regla 4.8.3.2, Los brackets forman parte del tipo, no de la variable");
         }
         return super.visitVariableDeclaratorId(ctx);
     }
@@ -181,7 +200,7 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
             }
         }
         if(!isdefault){
-            error("error: violacion de la regla 4.8.4.3 Cada switch debe tener una sentencia default: "+ctx.switchLabel(ctx.switchLabel().size()-1).CASE().getSymbol().getLine());
+            error("<linea:"+ctx.switchLabel(ctx.switchLabel().size()-1).CASE().getSymbol().getLine()+"> Violación de la regla 4.8.4.3, Cada switch debe tener una sentencia default");
         }
         return super.visitSwitchBlock(ctx);
     }
@@ -192,18 +211,17 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
      * */
     @Override
     public Object visitFieldDeclaration(Java9Parser.FieldDeclarationContext ctx){
-        if(ctx.fieldModifier().isEmpty()){
-            String identifier = ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().identifier().getText();
-            if(!verifylowerCamelCase(identifier)){
-                error("error: violacion de la regla 5.2.5 todas las declaraciones no constantes deben estar en  lowerCamelCase, linea: "+ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().getStart().getLine());
-            }
-        }else{
-            for(int i=0; i<ctx.fieldModifier().size(); i++){
-                if(ctx.fieldModifier(i).FINAL() == null){
-                    String identifier = ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().identifier().getText();
+        List<Java9Parser.FieldModifierContext>modifiers=ctx.fieldModifier();
+        List<Java9Parser.VariableDeclaratorContext> declarations=ctx.variableDeclaratorList().variableDeclarator();
+        if(!isNotConstant(modifiers)){
+            for(int i =0;i<declarations.size();i++){
+                if(declarations.get(i).variableDeclaratorId()!=null
+                        &&declarations.get(i).variableDeclaratorId().identifier()!=null){
+                    String identifier=declarations.get(i).variableDeclaratorId().identifier().getText();
                     if(!verifylowerCamelCase(identifier)){
-                        error("no hay lower, linea: "+ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().getStart().getLine());
+                        error("<linea:"+declarations.get(i).variableDeclaratorId().identifier().getStart().getLine()+"> Violación de la regla 5.2.5, los nombres de las no constantes son en lowerCamelCase");
                     }
+
                 }
             }
         }
@@ -212,21 +230,46 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
 
     @Override
     public Object visitLocalVariableDeclaration(Java9Parser.LocalVariableDeclarationContext ctx){
-        if(ctx.variableModifier().isEmpty()){
-            String identifier = ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().identifier().getText();
-            if(!verifylowerCamelCase(identifier)){
-                error("error: violacion de la regla 5.2.5 todas las declaraciones no constantes deben estar en  lowerCamelCase, linea: "+ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().getStart().getLine());
-            }
-        }else{
-            for(int i=0; i<ctx.variableModifier().size(); i++){
-                if(ctx.variableModifier(i).FINAL() == null){
-                    String identifier = ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().identifier().getText();
+
+        List<Java9Parser.VariableModifierContext>modifiers=ctx.variableModifier();
+        List<Java9Parser.VariableDeclaratorContext> declarations=ctx.variableDeclaratorList().variableDeclarator();
+        if(!isNotConstant2(modifiers)){
+            for(int i =0;i<declarations.size();i++){
+                if(declarations.get(i).variableDeclaratorId()!=null
+                        &&declarations.get(i).variableDeclaratorId().identifier()!=null){
+                    String identifier=declarations.get(i).variableDeclaratorId().identifier().getText();
                     if(!verifylowerCamelCase(identifier)){
-                        error("no hay lower, linea: "+ctx.variableDeclaratorList().variableDeclarator(0).variableDeclaratorId().getStart().getLine());
+                        error("<linea:"+declarations.get(i).variableDeclaratorId().identifier().getStart().getLine()+"> Violación de la regla 5.2.5, los nombres de las no constantes son en lowerCamelCase");
                     }
+
                 }
             }
         }
         return  super.visitLocalVariableDeclaration(ctx);
     }
+
+    /***
+     *
+     * 4.8.2.2
+     * */
+
+    @Override
+    public Object visitMethodDeclaration(Java9Parser.MethodDeclarationContext ctx){
+        LocalVariables = new HashMap<String, Integer>();
+        return super.visitMethodDeclaration(ctx);
+    }
+
+    @Override
+    public Object visitIdentifier(Java9Parser.IdentifierContext ctx){
+        if(!LocalVariables.containsKey(ctx.getText())){
+            LocalVariables.put(ctx.getText(),ctx.getStart().getLine());
+        }else{
+            int origin = LocalVariables.get(ctx.getText());
+            if(ctx.getStart().getLine() - origin > 10){
+                error("<linea:"+ctx.getStart().getLine()+"> Violación de la regla 4.8.2.2, la variable local "+ctx.getText()+" fue utilizada muy lejos de su primer uso");
+            }
+        }
+        return super.visitIdentifier(ctx);
+    }
+
 }

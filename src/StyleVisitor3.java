@@ -183,7 +183,7 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
                                     }
                                 }
                                 if(!areOverride){
-                                    error("error: violacion de la regla 6.1,el metodo "+childMethodName+" es heredado y no cuenta con la anotacion @Override, linea: "+method.getStart().getLine());
+                                    error("<linea:"+method.getStart().getLine()+"> violacion la regla 6.1, el metodo "+childMethodName+" es heredado y no cuenta con la anotacion @Override");
                                 }
 
                             }
@@ -239,7 +239,7 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
                                         }
                                     }
                                     if(!areOverride){
-                                        error("error: violacion de la regla 6.1,el metodo "+childMethodName+" es implementado y no cuenta con la anotacion @Override, linea: "+method.getStart().getLine());
+                                        error("<linea:"+method.getStart().getLine()+"> violacion la regla 6.1, el metodo "+childMethodName+" es heredado y no cuenta con la anotacion @Override");
                                     }
 
                                 }
@@ -247,7 +247,6 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
                             }
                         }
                     }
-
                 }
             }
         }

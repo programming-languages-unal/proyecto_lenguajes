@@ -1,0 +1,2 @@
+} debe tener un salto de linea despues si no termina un bloque: 5
+<linea:38> violacion la regla 6.1, el metodo test es heredado y no cuenta con la anotacion @Override

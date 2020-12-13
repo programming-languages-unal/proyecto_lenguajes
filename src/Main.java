@@ -1,6 +1,9 @@
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
 public class Main {
     public static void main(String[] args) throws Exception {
         try {
@@ -20,8 +23,21 @@ public class Main {
             StyleVisitor2<Object> styleVisitor2 = new StyleVisitor2<>();
             StyleVisitor3<Object> styleVisitor3 = new StyleVisitor3<>();
             //try{}catch (Exception e){}finally {}
+
+            //FileInputStream instream = null;
+            PrintStream outstream = null;
+            /*
+            try  {
+                //instream =  new  FileInputStream (INPUT);
+                outstream =  new  PrintStream ( new FileOutputStream("output.txt"));
+                //System.setIn (instream);
+                System.setOut (outstream);
+            }  catch  (Exception e) {
+                System.err.println ( "Error Occurred." );
+            }
+            */
             try {
-                //styleVisitor1.visit(tree);
+                styleVisitor1.visit(tree);
                 styleVisitor2.visit(tree);
                 styleVisitor3.visit(tree);
             } catch (Exception e) {

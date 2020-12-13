@@ -1,4 +1,5 @@
 
+/*
 class Parent {
     void greeting(){
 
@@ -18,22 +19,26 @@ class Child extends Parent{
     void fooA(){}//error 6.1 por falta de override
 }
 
-interface MyInterface{
-    void impl();
-    void x();
-}
+
+
 
 interface Po{
     void dd();
 }
+*/
 
-class ChildInterface implements MyInterface,Po{
+interface MyInterface{
+    void test();
+    void x();
+}
+
+class ChildInterface implements MyInterface{
 
 
-    public void impl() {//saca error 6.1 por  no tener override
-
+    public void test() {//saca error 6.1 por  no tener override
     }
 
+    /*
     @Override//no saca error
     public void x() {
 
@@ -43,4 +48,5 @@ class ChildInterface implements MyInterface,Po{
     public void dd() {
 
     }
+    */
 }

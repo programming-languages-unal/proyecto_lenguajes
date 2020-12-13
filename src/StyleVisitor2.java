@@ -157,6 +157,8 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
          *
          * 3.4.2
          * */
+        LocalVariables = new HashMap<String, Integer>();
+
         if(ctx.classBody() != null && ctx.classBody().classBodyDeclaration().size() > 0){
             int line = 0;
             List<String> list = new ArrayList<String>();
@@ -240,10 +242,7 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
                     if(!verifylowerCamelCase(identifier)){
                         error("<linea:"+declarations.get(i).variableDeclaratorId().identifier().getStart().getLine()+"> Violación de la regla 5.2.5, los nombres de las no constantes son en lowerCamelCase");
                     }
-                    if(!LocalVariables.containsKey(identifier)){
-                        LocalVariables.put(identifier, declarations.get(i).variableDeclaratorId().identifier().getStart().getLine());
-                    }
-
+                    LocalVariables.put(identifier, declarations.get(i).variableDeclaratorId().identifier().getStart().getLine());
                 }
             }
         }
@@ -265,7 +264,7 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
     public Object visitIdentifier(Java9Parser.IdentifierContext ctx){
         if(LocalVariables.containsKey(ctx.getText())){
             int origin = LocalVariables.get(ctx.getText());
-            if(ctx.getStart().getLine() - origin > 20){
+            if(ctx.getStart().getLine() - origin > 30){
                 error("<linea:"+ctx.getStart().getLine()+"> Violación de la regla 4.8.2.2, la variable local "+ctx.getText()+" fue utilizada muy lejos de su inicializacion");
             }
         }

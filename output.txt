@@ -5,12 +5,6 @@
 <linea:129> Violación de la regla 4.8.2.2, la variable local a fue utilizada muy lejos de su inicializacion
 <linea:131> Violación de la regla 4.8.2.2, la variable local a fue utilizada muy lejos de su inicializacion
 <linea:134> Violación de la regla 4.8.2.2, la variable local a fue utilizada muy lejos de su inicializacion
-<linea:142> Violación de la regla 4.8.2.2, la variable local i fue utilizada muy lejos de su inicializacion
-<linea:145> Violación de la regla 4.8.2.2, la variable local i fue utilizada muy lejos de su inicializacion
-<linea:147> Violación de la regla 4.8.2.2, la variable local i fue utilizada muy lejos de su inicializacion
-<linea:152> Violación de la regla 4.8.2.2, la variable local i fue utilizada muy lejos de su inicializacion
-<linea:159> Violación de la regla 4.8.2.2, la variable local i fue utilizada muy lejos de su inicializacion
-<linea:176> Violación de la regla 4.8.2.2, la variable local a fue utilizada muy lejos de su inicializacion
 <linea:193> Violación de la regla 3.4.2, Los metodos deben estan en orden alfabetico, orden recomendado: [foo, fooA, greeting]
 <linea:203> Violación de la regla 3.4.2, Los metodos deben estan en orden alfabetico, orden recomendado: [foo, fooA, greeting]
 <linea:226> Violación de la regla 3.4.2, Los metodos deben estan en orden alfabetico, orden recomendado: [dd, impl, x]

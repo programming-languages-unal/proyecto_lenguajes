@@ -48,9 +48,11 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
                 char[] ch = new char[str.length()];
                 for (int i = 0; i < str.length(); i++) {
                     ch[i] = str.charAt(i);
-                    if((int) str.charAt(i) == 123 && i != str.length() - 1){
-                        error("{ debe ser seguido de un salto de linea, linea: "+ counter);
-                        break;
+                    if((int) str.charAt(i) == 123 && i != str.length() - 1 ){
+                        if((int) str.charAt(i+1) != 125 && (int) str.charAt(i+1) != 47){
+                            error("{ debe ser seguido de un salto de linea, linea: "+ counter);
+                            break;
+                        }
                     }
                     if((int) str.charAt(i) == 123 && i == 0){
                         error("{ no debe tener un salto de linea antes, linea: "+ counter);
@@ -71,14 +73,16 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
                     }
                     if((int) str.charAt(i) == 125 && i != 0){
                         boolean isspace = false;
-                        for(int j = i-1; j > 0; j--){
-                            if(str.charAt(j) != 32){
-                                isspace = true;
-                                break;
+                        if(str.charAt(i-1) != 123){
+                            for(int j = i-1; j > 0; j--){
+                                if(str.charAt(j) != 32){
+                                    isspace = true;
+                                    break;
+                                }
                             }
                         }
                         if(isspace){
-                            error("} debe tener un salto de linea antes, linea: "+ counter);
+                            error("} debe tener un salto de linea o un { antes, linea: "+ counter);
                             break;
                         }
                     }

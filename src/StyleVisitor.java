@@ -34,7 +34,7 @@ public class StyleVisitor<T> extends Java9BaseVisitor {
         int n = identifierText.length();
         for (int i = 1; i < n; i++) {
             int asciiChar = (int) identifierText.charAt(i);
-            if (!((asciiChar >= 65 && asciiChar <= 90) || (asciiChar >= 97 && asciiChar <= 122) || asciiChar == 95))
+            if (!((asciiChar >= 65 && asciiChar <= 90) || (asciiChar >= 97 && asciiChar <= 122)))
                 return false;
         }
         return true;

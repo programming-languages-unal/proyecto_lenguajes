@@ -9,11 +9,15 @@ public class StyleVisitor<T> extends Java9BaseVisitor {
             boolean static_import = true;
             String error = "Los import tienen el siguiente orden:\n" +
                     "1.Todos los import estaticos en un solo bloque.\n" +
-                    "2.Todo los import no estaticos en un solo bloque.\n";
+                    "2.Todos los import no estaticos en un solo bloque.\n";
             for (Java9Parser.ImportDeclarationContext ctxDeclaration : listDeclarations) {
-                if (ctxDeclaration.singleStaticImportDeclaration() != null || ctxDeclaration.staticImportOnDemandDeclaration() != null) {
+                if (ctxDeclaration.singleStaticImportDeclaration() != null) {
                     if (!static_import) {
-                        error(error);
+                        error("<linea:" + ctxDeclaration.singleStaticImportDeclaration().start.getLine() + "> violacion de la regla 3.3.3, " + error);
+                    }
+                } else if (ctxDeclaration.staticImportOnDemandDeclaration() != null) {
+                    if (!static_import) {
+                        error("<linea:" + ctxDeclaration.staticImportOnDemandDeclaration().start.getLine() + "> violacion de la regla 3.3.3, " + error);
                     }
                 } else if (!static_import && ctxDeclaration.singleTypeImportDeclaration() != null || ctxDeclaration.typeImportOnDemandDeclaration() != null) {
                     static_import = false;
@@ -50,11 +54,9 @@ public class StyleVisitor<T> extends Java9BaseVisitor {
         if (ctx.identifier() != null) {
             String identifierText = ctx.identifier().getText();
             if (!verifyvar(identifierText)) {
-                error("Las clases deben ser escritas en UpperCamelCase");
+                error("<linea:"+ctx.identifier().start.getLine()+"> violacion de la regla 5.2.2, las clases deben ser escritas en UpperCamelCase");
             }
-
         }
-
         return super.visitNormalClassDeclaration(ctx);
     }
 
@@ -108,14 +110,14 @@ public class StyleVisitor<T> extends Java9BaseVisitor {
             if (ctxMethodBody.block() == null) {
 
                 //error("<linea:"+method.getStart().getLine()+"> violacion de la regla 6.1, el metodo "+childMethodName+" es heredado y no cuenta con la anotacion @Override");
-                error("<linea:"+ctxMethodBody.getStart().getLine()+"> violacion de la regla 4.1.3. La declaracion de los metodos tiene que tener un bloque, puede ser vacio en algunos casos o con contenido");
+                error("<linea:" + ctxMethodBody.getStart().getLine() + "> violacion de la regla 4.1.3. La declaracion de los metodos tiene que tener un bloque, puede ser vacio en algunos casos o con contenido");
             }
         }
         return super.visitMethodDeclaration(ctx);
     }
 
     String emptyBlocks(int line) {
-        return "<linea:"+line+"> violacion de la regla 4.1.3. No deben haber bloques vacios en un sentencia de bloques multiples";
+        return "<linea:" + line + "> violacion de la regla 4.1.3. No deben haber bloques vacios en un sentencia de bloques multiples";
     }
 
     @Override
@@ -142,8 +144,8 @@ public class StyleVisitor<T> extends Java9BaseVisitor {
         if (ctx.finally_() != null) {
             if (ctx.finally_().block() != null) {
                 Java9Parser.BlockStatementsContext ctxBlockStatements = ctx.finally_().block().blockStatements();
-                if(ctxBlockStatements==null){
-                    error(emptyBlocks(ctx.finally_().block().start.getLine())+", los bloques finally no pueden estar vacios");
+                if (ctxBlockStatements == null) {
+                    error(emptyBlocks(ctx.finally_().block().start.getLine()) + ", los bloques finally no pueden estar vacios");
                 }
             }
         }

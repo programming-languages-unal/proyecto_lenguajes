@@ -104,15 +104,18 @@ public class StyleVisitor<T> extends Java9BaseVisitor {
     public Object visitMethodDeclaration(Java9Parser.MethodDeclarationContext ctx) {
         if (ctx.methodBody() != null) {
             Java9Parser.MethodBodyContext ctxMethodBody = ctx.methodBody();
+
             if (ctxMethodBody.block() == null) {
-                error("4.1.3. La declaracion de los metodos tiene que tener un bloque, puede ser vacio en algunos casos o con contenido");
+
+                //error("<linea:"+method.getStart().getLine()+"> violacion de la regla 6.1, el metodo "+childMethodName+" es heredado y no cuenta con la anotacion @Override");
+                error("<linea:"+ctxMethodBody.getStart().getLine()+"> violacion de la regla 4.1.3. La declaracion de los metodos tiene que tener un bloque, puede ser vacio en algunos casos o con contenido");
             }
         }
         return super.visitMethodDeclaration(ctx);
     }
 
-    String emptyBlocks() {
-        return "4.1.3. No deben haber bloques vacios en un sentencia de bloques multiples";
+    String emptyBlocks(int line) {
+        return "<linea:"+line+"> violacion de la regla 4.1.3. No deben haber bloques vacios en un sentencia de bloques multiples";
     }
 
     @Override
@@ -120,7 +123,7 @@ public class StyleVisitor<T> extends Java9BaseVisitor {
         if (ctx.block() != null) {
             Java9Parser.BlockContext ctxBlock = ctx.block();
             if (ctxBlock.blockStatements() == null) {
-                error(emptyBlocks() + ", los bloques try no pueden estar vacios");
+                error(emptyBlocks(ctx.block().start.getLine()) + ", los bloques try no pueden estar vacios");
             }
         }
         /*
@@ -140,7 +143,7 @@ public class StyleVisitor<T> extends Java9BaseVisitor {
             if (ctx.finally_().block() != null) {
                 Java9Parser.BlockStatementsContext ctxBlockStatements = ctx.finally_().block().blockStatements();
                 if(ctxBlockStatements==null){
-                    error(emptyBlocks()+", los bloques finally no pueden estar vacios");
+                    error(emptyBlocks(ctx.finally_().block().start.getLine())+", los bloques finally no pueden estar vacios");
                 }
             }
         }

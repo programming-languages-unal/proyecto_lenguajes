@@ -59,7 +59,7 @@ public class StyleVisitor<T> extends Java9BaseVisitor {
     }
 
 
-    public String visitLiteralPrint(String normal, String unicode, String octal) {
+    String visitLiteralPrint(String normal, String unicode, String octal) {
         return "Debe ingresar la secuencia de escape especial: " + normal + ", en vez la la secuencia de escape unicode: " + unicode + ", o la secuencia de escape octal: " + octal;
     }
 
@@ -101,7 +101,50 @@ public class StyleVisitor<T> extends Java9BaseVisitor {
     }
 
     @Override
-    public Object visitInterfaceMethodDeclaration(Java9Parser.InterfaceMethodDeclarationContext ctx) {
-        return super.visitInterfaceMethodDeclaration(ctx);
+    public Object visitMethodDeclaration(Java9Parser.MethodDeclarationContext ctx) {
+        if (ctx.methodBody() != null) {
+            Java9Parser.MethodBodyContext ctxMethodBody = ctx.methodBody();
+            if (ctxMethodBody.block() == null) {
+                error("4.1.3. La declaracion de los metodos tiene que tener un bloque, puede ser vacio en algunos casos o con contenido");
+            }
+        }
+        return super.visitMethodDeclaration(ctx);
+    }
+
+    String emptyBlocks() {
+        return "4.1.3. No deben haber bloques vacios en un sentencia de bloques multiples";
+    }
+
+    @Override
+    public Object visitTryStatement(Java9Parser.TryStatementContext ctx) {
+        if (ctx.block() != null) {
+            Java9Parser.BlockContext ctxBlock = ctx.block();
+            if (ctxBlock.blockStatements() == null) {
+                error(emptyBlocks() + ", los bloques try no pueden estar vacios");
+            }
+        }
+        /*
+        if (ctx.catches() != null) {
+            List<Java9Parser.CatchClauseContext> ctxCatchClauses = ctx.catches().catchClause();
+            for (Java9Parser.CatchClauseContext ctxCl : ctxCatchClauses) {
+                if (ctxCl.block() != null) {
+                    Java9Parser.BlockContext ctxBlock = ctxCl.block();
+                    if (ctxBlock.blockStatements() == null) {
+                        error(emptyBlocks() + ", los bloques catch no pueden estar vacios");
+                    }
+                }
+            }
+        }
+        */
+        if (ctx.finally_() != null) {
+            if (ctx.finally_().block() != null) {
+                Java9Parser.BlockStatementsContext ctxBlockStatements = ctx.finally_().block().blockStatements();
+                if(ctxBlockStatements==null){
+                    error(emptyBlocks()+", los bloques finally no pueden estar vacios");
+                }
+            }
+        }
+
+        return super.visitTryStatement(ctx);
     }
 }

@@ -73,7 +73,7 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
                             if((int) str.charAt(j) == 47){
                                 break;
                             }
-                            if((int) str.charAt(j+1) != 125 && (int) str.charAt(j+1) != 47 && (int) str.charAt(j+1) != 32){
+                            if((int) str.charAt(j+1) != 125 && (int) str.charAt(j+1) != 47 && (int) str.charAt(j+1) != 32 && (int) str.charAt(j+1) != 59){
                                 error("<linea:"+counter+"> Violación de la regla 4.1.2, { debe ser seguido de un salto de linea");
                                 break;
                             }

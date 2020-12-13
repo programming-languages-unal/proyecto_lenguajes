@@ -77,7 +77,9 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
 
             if(modifier_contexts.get(i).annotation()!=null && modifier_contexts.get(i).annotation().markerAnnotation()!=null){
                 if(modifier_contexts.get(i).annotation().getStart().getLine()==this.lastLineMarkerAnnotation){
-                    error("error:violacion de 4.8.5 Annotations, se tienen varias anotaciones en la linea "+modifier_contexts.get(i).annotation().getStart().getLine());
+                    error("<linea:"+modifier_contexts.get(i).annotation().getStart().getLine()+"> violacion la regla 4.8.5,se tienen varias anotaciones en la misma linea");
+                    //error("error:violacion de 4.8.5 Annotations, se tienen varias anotaciones en la linea "+modifier_contexts.get(i).annotation().getStart().getLine());
+
                     numAnnotations++;
                     break;
                 }
@@ -91,8 +93,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
 
                 if(modifier_contexts.get(i).annotation()==null ){
                     if(modifier_contexts.get(i).getStart().getLine()==this.lastLineMarkerAnnotation){
-                        error("error:violacion de 4.8.5 Annotations, Si hay mas de una anotacion la ultima no puede ir en la misma linea de la signatura linea: "+modifier_contexts.get(i).getStart().getLine());
-                        //System.exit(-1);
+                        //error("error:violacion de 4.8.5 Annotations, Si hay mas de una anotacion la ultima no puede ir en la misma linea de la signatura linea: "+modifier_contexts.get(i).getStart().getLine());
+                        error("<linea:"+modifier_contexts.get(i).getStart().getLine()+"> violacion la regla 4.8.5,Si hay mas de una anotacion la ultima no puede ir en la misma linea");
                         break;
                     }
 
@@ -116,8 +118,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
 
             if(modifier_contexts.get(i).annotation()!=null && modifier_contexts.get(i).annotation().markerAnnotation()!=null){
                 if(modifier_contexts.get(i).annotation().getStart().getLine()==this.lastLineMarkerAnnotation){
-                    error("error:violacion de 4.8.5 Annotations, se tienen varias anotaciones en la linea "+modifier_contexts.get(i).annotation().getStart().getLine());
-                    //System.exit(-1);
+                    //error("error:violacion de 4.8.5 Annotations, se tienen varias anotaciones en la linea "+modifier_contexts.get(i).annotation().getStart().getLine());
+                    error("<linea:"+modifier_contexts.get(i).annotation().getStart().getLine()+"> violacion la regla 4.8.5,se tienen varias anotaciones en la misma linea");
                     break;
                 }
                 this.lastLineMarkerAnnotation=modifier_contexts.get(i).annotation().getStart().getLine();
@@ -166,8 +168,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
                         if(commonMethods.contains(childMethodName)){
 
                             if(method.methodModifier().size()==0){
-                                error("error: violacion de la regla 6.1, el metodo "+childMethodName+" es heredado  y no cuenta con anotaciones (Debe contar con la anotacion Override), linea: "+method.getStart().getLine());
-
+                                //error("error: violacion de la regla 6.1, el metodo "+childMethodName+" es heredado  y no cuenta con anotaciones (Debe contar con la anotacion Override), linea: "+method.getStart().getLine());
+                                error("<linea:"+method.getStart().getLine()+"> violacion la regla 6.1,el metodo "+childMethodName+" es heredado  y no cuenta con anotaciones (Debe contar con la anotacion Override)");
                             }
                             else{
                                 boolean areOverride=false;
@@ -222,8 +224,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
                             if(commonMethods.contains(childMethodName)){
 
                                 if(method.methodModifier().size()==0){
-                                    error("error: violacion de la regla 6.1, el metodo "+childMethodName+" es implementado  y no cuenta con anotaciones (Debe contar con la anotacion Override), linea: "+method.getStart().getLine());
-
+                                  //  error("error: violacion de la regla 6.1, el metodo "+childMethodName+" es implementado  y no cuenta con anotaciones (Debe contar con la anotacion Override), linea: "+method.getStart().getLine());
+                                    error("<linea:"+method.getStart().getLine()+"> violacion la regla 6.1, el metodo "+childMethodName+" es implementado  y no cuenta con anotaciones (Debe contar con la anotacion Override)");
                                 }
                                 else{
                                     boolean areOverride=false;
@@ -239,6 +241,7 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
                                         }
                                     }
                                     if(!areOverride){
+                                       // error("<linea:"+method.getStart().getLine()+"> violacion la regla 6.1, el metodo "+childMethodName+" es heredado y no cuenta con la anotacion @Override");
                                         error("<linea:"+method.getStart().getLine()+"> violacion la regla 6.1, el metodo "+childMethodName+" es heredado y no cuenta con la anotacion @Override");
                                     }
 
@@ -262,8 +265,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
 
             if(modifier_contexts.get(i).annotation()!=null && modifier_contexts.get(i).annotation().markerAnnotation()!=null){
                 if(modifier_contexts.get(i).annotation().getStart().getLine()==this.lastLineMarkerAnnotation){
-                    error("error:violacion de 4.8.5 Annotations, se tienen varias anotaciones en la linea "+modifier_contexts.get(i).annotation().getStart().getLine());
-                    //System.exit(-1);
+                    //error("error:violacion de 4.8.5 Annotations, se tienen varias anotaciones en la linea "+modifier_contexts.get(i).annotation().getStart().getLine());
+                    error("<linea:"+modifier_contexts.get(i).annotation().getStart().getLine()+"> violacion la regla 4.8.5, se tienen varias anotaciones en la misma linea");
                     break;
                 }
                 this.lastLineMarkerAnnotation=modifier_contexts.get(i).annotation().getStart().getLine();
@@ -282,8 +285,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
 
 
         if(ctx.variableDeclaratorList().variableDeclarator().size()>1){
-            error("error: violacion de la regla 4.8.2.1, no se pueden declarar varias variables en un statement, linea: "+ctx.start.getLine());
-
+            //error("error: violacion de la regla 4.8.2.1, no se pueden declarar varias variables en un statement, linea: "+ctx.start.getLine());
+            error("<linea:"+ctx.start.getLine()+"> violacion la regla 4.8.2.1, no se pueden declarar varias variables en un statement");
         }
 
 
@@ -302,7 +305,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
                     String assignedValue=declarations.get(i).variableInitializer().getText();
                     int asciiFirstCharacter=(int)assignedValue.charAt(0);
                     if(assignedValue.charAt(assignedValue.length()-1)=='l' && (asciiFirstCharacter>=48 && asciiFirstCharacter<=57) ){
-                        error("violacion de la regla 4.8.8, no se puede tener l como sufijo de un valor long en la linea: "+declarations.get(i).variableInitializer().getStart().getLine());
+                        //error("violacion de la regla 4.8.8, no se puede tener l como sufijo de un valor long en la linea: "+declarations.get(i).variableInitializer().getStart().getLine());
+                        error("<linea:"+declarations.get(i).variableInitializer().getStart().getLine()+"> violacion la regla 4.8.8, no se puede tener l como sufijo de un valor long");
                     }
 
                 }
@@ -320,7 +324,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
                         &&declarations.get(i).variableDeclaratorId().identifier()!=null){
                     String identifier=declarations.get(i).variableDeclaratorId().identifier().getText();
                     if(!isUpperCase(identifier)){
-                        error("error: violacion de la regla 5.2.4, los nombres de las constantes solo pueden usar mayusculas y underscore, linea "+declarations.get(i).variableDeclaratorId().identifier().getStart().getLine());
+                        //error("error: violacion de la regla 5.2.4, los nombres de las constantes solo pueden usar mayusculas y underscore, linea "+declarations.get(i).variableDeclaratorId().identifier().getStart().getLine());
+                        error("<linea:"+declarations.get(i).variableDeclaratorId().identifier().getStart().getLine()+"> violacion la regla 5.2.4, los nombres de las constantes solo pueden usar mayusculas y underscore");
                     }
 
                 }
@@ -336,8 +341,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
     public Object visitLocalVariableDeclaration(Java9Parser.LocalVariableDeclarationContext ctx) {
 
         if(ctx.variableDeclaratorList().variableDeclarator().size()>1){
-            error("error: violacion de la regla 4.8.2.1, no se pueden declarar varias variables en un statement, linea: "+ctx.start.getLine());
-
+            //error("error: violacion de la regla 4.8.2.1, no se pueden declarar varias variables en un statement, linea: "+ctx.start.getLine());
+            error("<linea:"+ctx.start.getLine()+"> violacion la regla 4.8.2.1, no se pueden declarar varias variables en un statement");
         }
 
 
@@ -359,7 +364,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
                     String assignedValue=declarations.get(i).variableInitializer().getText();
                     int asciiFirstCharacter=(int)assignedValue.charAt(0);
                     if(assignedValue.charAt(assignedValue.length()-1)=='l' && (asciiFirstCharacter>=48 && asciiFirstCharacter<=57) ){
-                        error("violacion de la regla 4.8.8, no se puede tener l como sufijo de un valor long en la linea: "+declarations.get(i).variableInitializer().getStart().getLine());
+                        //error("violacion de la regla 4.8.8, no se puede tener l como sufijo de un valor long en la linea: "+declarations.get(i).variableInitializer().getStart().getLine());
+                        error("<linea:"+declarations.get(i).variableInitializer().getStart().getLine()+"> violacion la regla 4.8.8, no se puede tener l como sufijo de un valor long");
                     }
 
                 }
@@ -377,7 +383,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
     public Object visitMethodDeclarator(Java9Parser.MethodDeclaratorContext ctx) {
         if(ctx.identifier()!=null){
             if(!verifylowerCamelCase(ctx.identifier().getText())){
-                error("Violacion de la regla 5.2.3, los nombres de los metodos deben estar en lowerCamelCase sin underscore linea: "+ctx.identifier().getStart().getLine());
+                //error("Violacion de la regla 5.2.3, los nombres de los metodos deben estar en lowerCamelCase sin underscore linea: "+ctx.identifier().getStart().getLine());
+                error("<linea:"+ctx.identifier().getStart().getLine()+"> violacion la regla 5.2.3, los nombres de los metodos deben estar en lowerCamelCase sin underscore");
             }
         }
 
@@ -398,7 +405,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
         if(ctx.statement()!=null
                 && ctx.statement().statementWithoutTrailingSubstatement()!=null
                 && ctx.statement().statementWithoutTrailingSubstatement().expressionStatement()!=null){
-            error("error: violacion de la regla 4.1.1, no se permiten if sin abrir y cerrar los brackets {}, linea:"+ctx.RPAREN().getSymbol().getLine());
+            //error("error: violacion de la regla 4.1.1, no se permiten if sin abrir y cerrar los brackets {}, linea:"+ctx.RPAREN().getSymbol().getLine());
+            error("<linea:"+ctx.RPAREN().getSymbol().getLine()+"> violacion la regla 4.1.1, no se permiten if sin abrir y cerrar los brackets {}");
         }
 
 
@@ -414,7 +422,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
                 &&ctx.statementNoShortIf().statementWithoutTrailingSubstatement()!=null
                 &&ctx.statementNoShortIf().statementWithoutTrailingSubstatement().block()!=null
                 &&ctx.statementNoShortIf().statementWithoutTrailingSubstatement().block().LBRACE()==null){
-            error("error: violacion de la regla 4.1.1, no se permiten if sin abrir y cerrar los brackets {}, linea:"+ctx.RPAREN().getSymbol().getLine());
+            //error("error: violacion de la regla 4.1.1, no se permiten if sin abrir y cerrar los brackets {}, linea:"+ctx.RPAREN().getSymbol().getLine());
+            error("<linea:"+ctx.RPAREN().getSymbol().getLine()+"> violacion la regla 4.1.1, no se permiten if sin abrir y cerrar los brackets {}");
         }
         /*caso en el que el if no tiene los brackets*/
         if(ctx.statementNoShortIf()!=null
@@ -423,7 +432,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
                 &&ctx.statementNoShortIf().statementWithoutTrailingSubstatement().expressionStatement()!=null
         ){
 
-            error("error: violacion de la regla 4.1.1, no se permiten if sin abrir y cerrar los brackets {}, linea:"+ctx.RPAREN().getSymbol().getLine());
+            //error("error: violacion de la regla 4.1.1, no se permiten if sin abrir y cerrar los brackets {}, linea:"+ctx.RPAREN().getSymbol().getLine());
+            error("<linea:"+ctx.RPAREN().getSymbol().getLine()+"> violacion la regla 4.1.1, no se permiten if sin abrir y cerrar los brackets {}");
         }
 
 
@@ -431,7 +441,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
         if(ctx.statement()!=null
                 && ctx.statement().statementWithoutTrailingSubstatement()!=null
                 && ctx.statement().statementWithoutTrailingSubstatement().expressionStatement()!=null){
-            error("error: violacion de la regla 4.1.1, no se permiten else sin abrir y cerrar los brackets {}, linea:"+ctx.ELSE().getSymbol().getLine());
+            //error("error: violacion de la regla 4.1.1, no se permiten else sin abrir y cerrar los brackets {}, linea:"+ctx.ELSE().getSymbol().getLine());
+            error("<linea:"+ctx.ELSE().getSymbol().getLine()+"> violacion la regla 4.1.1,  no se permiten else sin abrir y cerrar los brackets {}");
 
         }
         return super.visitIfThenElseStatement(ctx);
@@ -442,7 +453,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
         if(ctx.statement()!=null
                 &&ctx.statement().statementWithoutTrailingSubstatement()!=null
                 &&ctx.statement().statementWithoutTrailingSubstatement().block()==null){
-            error("error: violacion de la regla 4.1.1 no se permiten for sin brackets {}, linea: "+ctx.RPAREN().getSymbol().getLine());
+           // error("error: violacion de la regla 4.1.1 no se permiten for sin brackets {}, linea: "+ctx.RPAREN().getSymbol().getLine());
+            error("<linea:"+ctx.RPAREN().getSymbol().getLine()+"> violacion la regla 4.1.1, no se permiten for sin brackets {}");
         }
 
         return super.visitBasicForStatement(ctx);
@@ -453,7 +465,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
         if(ctx.statement()!=null
                 &&ctx.statement().statementWithoutTrailingSubstatement()!=null
                 &&ctx.statement().statementWithoutTrailingSubstatement().block()==null){
-            error("error: violacion de la regla 4.1.1 no se permiten for each sin brackets {}, linea: "+ctx.RPAREN().getSymbol().getLine());
+            //error("error: violacion de la regla 4.1.1 no se permiten for each sin brackets {}, linea: "+ctx.RPAREN().getSymbol().getLine());
+            error("<linea:"+ctx.RPAREN().getSymbol().getLine()+"> violacion la regla 4.1.1, no se permiten for each sin brackets {}");
         }
 
 
@@ -466,7 +479,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
         if(ctx.statement()!=null
                 &&ctx.statement().statementWithoutTrailingSubstatement()!=null
                 &&ctx.statement().statementWithoutTrailingSubstatement().block()==null){
-            error("error: violacion de la regla 4.1.1 , no se permite un do sin brackets {}, linea: "+ctx.DO().getSymbol().getLine());
+            //error("error: violacion de la regla 4.1.1 , no se permite un do sin brackets {}, linea: "+ctx.DO().getSymbol().getLine());
+            error("<linea:"+ctx.DO().getSymbol().getLine()+"> violacion la regla 4.1.1, no se permite un do sin brackets {}");
         }
 
 
@@ -478,7 +492,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
         if(ctx.statement()!=null
                 &&ctx.statement().statementWithoutTrailingSubstatement()!=null
                 &&ctx.statement().statementWithoutTrailingSubstatement().block()==null){
-            error("error: violacion de la regla 4.1.1  no se puede tener while sin brackets {}, linea: "+ctx.WHILE().getSymbol().getLine());
+            //error("error: violacion de la regla 4.1.1  no se puede tener while sin brackets {}, linea: "+ctx.WHILE().getSymbol().getLine());
+            error("<linea:"+ctx.WHILE().getSymbol().getLine()+"> violacion la regla 4.1.1, no se puede tener while sin brackets {}");
         }
 
         return super.visitWhileStatement(ctx);
@@ -488,7 +503,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
     public Object visitCatchClause(Java9Parser.CatchClauseContext ctx) {
         if(ctx.block()!=null
                 &&ctx.block().blockStatements()==null &&!ctx.catchFormalParameter().variableDeclaratorId().identifier().getText().matches("expected[A-Za-z0-9]*")){
-            error("error: violacion de la regla 6.2, no se pueden tener clausulas catch sin ningun statement, linea: "+ctx.CATCH().getSymbol().getLine());
+            //error("error: violacion de la regla 6.2, no se pueden tener clausulas catch sin ningun statement, linea: "+ctx.CATCH().getSymbol().getLine());
+            error("<linea:"+ctx.CATCH().getSymbol().getLine()+"> violacion la regla 6.2, no se pueden tener clausulas catch sin ningun statement");
         }
 
 
@@ -532,7 +548,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
     }*/
         if(ctx.DOT().size()!=0){
             if(ctx.DOT().get(0).getSymbol().getLine()!=ctx.identifier().getStart().getLine()){
-                error("error: violacion de la regla 4.5,el salto de linea debe ir antes del punto, linea: "+ctx.DOT().get(0).getSymbol().getLine());
+                //error("error: violacion de la regla 4.5,el salto de linea debe ir antes del punto, linea: "+ctx.DOT().get(0).getSymbol().getLine());
+                error("<linea:"+ctx.DOT().get(0).getSymbol().getLine()+"> violacion la regla 4.5, el salto de linea debe ir antes del punto");
 
             }
         }
@@ -546,7 +563,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
         for(int i=0;i<ctx.BITOR().size();i++){
 
             if(ctx.BITOR().get(i).getSymbol().getLine()!=ctx.classType().get(i).getStart().getLine()){
-                error("error: violacion de la regla 4.5, el salto de linea debe ir antes de | ,linea :"+ctx.BITOR().get(i).getSymbol().getLine());
+               // error("error: violacion de la regla 4.5, el salto de linea debe ir antes de | ,linea :"+ctx.BITOR().get(i).getSymbol().getLine());
+                error("<linea:"+ctx.BITOR().get(i).getSymbol().getLine()+"> violacion la regla 4.5, el salto de linea debe ir antes de |");
             }
 
         }
@@ -558,7 +576,8 @@ public class StyleVisitor3<T> extends Java9BaseVisitor {
     public Object visitAdditionalBound(Java9Parser.AdditionalBoundContext ctx) {
         if(ctx.BITAND()!=null&&ctx.interfaceType()!=null){
             if(ctx.BITAND().getSymbol().getLine()!=ctx.interfaceType().getStart().getLine()){
-                error("error: violacion de la regla 4.5, el salto de linea ir antes de &, linea :"+ctx.BITAND().getSymbol().getLine());
+                //error("error: violacion de la regla 4.5, el salto de linea ir antes de &, linea :"+ctx.BITAND().getSymbol().getLine());
+                error("<linea:"+ctx.BITAND().getSymbol().getLine()+"> violacion la regla 4.5, el salto de linea ir antes de &");
             }
         }
 

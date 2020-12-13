@@ -157,11 +157,11 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
          *
          * 3.4.2
          * */
-        if (ctx.classBody().classBodyDeclaration(0) != null) {
+        if(ctx.classBody() != null && ctx.classBody().classBodyDeclaration().size() > 0){
             int line = 0;
             List<String> list = new ArrayList<String>();
             for(int i=0; i<ctx.classBody().classBodyDeclaration().size(); i++){
-                if(ctx.classBody().classBodyDeclaration(i).classMemberDeclaration().methodDeclaration() != null) {
+                if(ctx.classBody().classBodyDeclaration(i).classMemberDeclaration() != null && ctx.classBody().classBodyDeclaration(i).classMemberDeclaration().methodDeclaration() != null){
                     line = ctx.classBody().classBodyDeclaration(i).classMemberDeclaration().methodDeclaration().methodHeader().methodDeclarator().identifier().getStart().getLine();
                     list.add(ctx.classBody().classBodyDeclaration(i).classMemberDeclaration().methodDeclaration().methodHeader().methodDeclarator().identifier().getText());
                 }
@@ -172,6 +172,7 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
                 error("<linea:"+line+"> Violación de la regla 3.4.2, Los metodos deben estan en orden alfabetico, orden recomendado: "+ sortedlsit);
             }
         }
+
         return super.visitNormalClassDeclaration(ctx);
     }
 
@@ -215,8 +216,7 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
         List<Java9Parser.VariableDeclaratorContext> declarations=ctx.variableDeclaratorList().variableDeclarator();
         if(!isNotConstant(modifiers)){
             for(int i =0;i<declarations.size();i++){
-                if(declarations.get(i).variableDeclaratorId()!=null
-                        &&declarations.get(i).variableDeclaratorId().identifier()!=null){
+                if(declarations.get(i).variableDeclaratorId()!=null && declarations.get(i).variableDeclaratorId().identifier()!=null){
                     String identifier=declarations.get(i).variableDeclaratorId().identifier().getText();
                     if(!verifylowerCamelCase(identifier)){
                         error("<linea:"+declarations.get(i).variableDeclaratorId().identifier().getStart().getLine()+"> Violación de la regla 5.2.5, los nombres de las no constantes son en lowerCamelCase");
@@ -265,8 +265,8 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
     public Object visitIdentifier(Java9Parser.IdentifierContext ctx){
         if(LocalVariables.containsKey(ctx.getText())){
             int origin = LocalVariables.get(ctx.getText());
-            if(ctx.getStart().getLine() - origin > 10){
-                error("<linea:"+ctx.getStart().getLine()+"> Violación de la regla 4.8.2.2, la variable local "+ctx.getText()+" fue utilizada muy lejos de su primer uso");
+            if(ctx.getStart().getLine() - origin > 20){
+                error("<linea:"+ctx.getStart().getLine()+"> Violación de la regla 4.8.2.2, la variable local "+ctx.getText()+" fue utilizada muy lejos de su inicializacion");
             }
         }
         return super.visitIdentifier(ctx);

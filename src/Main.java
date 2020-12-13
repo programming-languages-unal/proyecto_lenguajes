@@ -26,16 +26,16 @@ public class Main {
 
             //FileInputStream instream = null;
             PrintStream outstream = null;
-            /*
-            try  {
+            
+            try {
                 //instream =  new  FileInputStream (INPUT);
-                outstream =  new  PrintStream ( new FileOutputStream("output.txt"));
+                outstream = new PrintStream(new FileOutputStream("output.txt"));
                 //System.setIn (instream);
-                System.setOut (outstream);
-            }  catch  (Exception e) {
-                System.err.println ( "Error Occurred." );
+                System.setOut(outstream);
+            } catch (Exception e) {
+                System.err.println("Error Occurred.");
             }
-            */
+
             try {
                 styleVisitor1.visit(tree);
                 styleVisitor2.visit(tree);

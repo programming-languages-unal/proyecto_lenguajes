@@ -54,15 +54,15 @@ public class StyleVisitor<T> extends Java9BaseVisitor {
         if (ctx.identifier() != null) {
             String identifierText = ctx.identifier().getText();
             if (!verifyvar(identifierText)) {
-                error("<linea:"+ctx.identifier().start.getLine()+"> violacion de la regla 5.2.2, las clases deben ser escritas en UpperCamelCase");
+                error("<linea:" + ctx.identifier().start.getLine() + "> violacion de la regla 5.2.2, las clases deben ser escritas en UpperCamelCase");
             }
         }
         return super.visitNormalClassDeclaration(ctx);
     }
 
 
-    String visitLiteralPrint(String normal, String unicode, String octal) {
-        return "Debe ingresar la secuencia de escape especial: " + normal + ", en vez la la secuencia de escape unicode: " + unicode + ", o la secuencia de escape octal: " + octal;
+    String visitLiteralPrint(int line, String normal, String unicode, String octal) {
+        return "<linea:" + line + "> violacion de la regla 2.3.2, debe ingresar la secuencia de escape especial: " + normal + ", en vez la la secuencia de escape unicode: " + unicode + ", o la secuencia de escape octal: " + octal;
     }
 
     @Override
@@ -70,27 +70,29 @@ public class StyleVisitor<T> extends Java9BaseVisitor {
         if (ctx.CharacterLiteral() != null) {
             String chLiteral = ctx.CharacterLiteral().getText();
 
-            char s = '∞';
-            String octal = Integer.toOctalString('∞');
-            String unicode = "\\u" + Integer.toHexString('∞' | 0x10000).substring(1);
-            char oct_ch = '\134';
+            //String octal = Integer.toOctalString('\u0009');
+            //String unicode = "\\u" + Integer.toHexString('\011' | 0x10000).substring(1);
+            //char oct_ch = '\011';
+            //char octh = '\u0009';
+
+            int line = ctx.CharacterLiteral().getSymbol().getLine();
 
             if (chLiteral.equals("'\\10'") || chLiteral.equals("'\\u0008'")) {// \b
-                error(visitLiteralPrint("'\\b'", "'\\u0008'", "'\\10'"));
+                error(visitLiteralPrint(line, "'\\b'", "'\\u0008'", "'\\10'"));
             } else if (chLiteral.equals("'\\u0009'") || chLiteral.equals("'\\011'")) {// \t
-                error(visitLiteralPrint("'\\t'", "'\\u0009'", "'\\011'"));
+                error(visitLiteralPrint(line, "'\\t'", "'\\u0009'", "'\\011'"));
             } else if (chLiteral.equals("'\\12'") || chLiteral.equals("'\\u000a'")) {// \n
-                error(visitLiteralPrint("'\\n'", "'\\u000a'", "'\\12'"));
+                error(visitLiteralPrint(line, "'\\n'", "'\\u000a'", "'\\12'"));
             } else if (chLiteral.equals("'\\14'") || chLiteral.equals("'\\u000c'")) {// \f
-                error(visitLiteralPrint("'\\f'", "'\\u000c'", "'\\14'"));
+                error(visitLiteralPrint(line, "'\\f'", "'\\u000c'", "'\\14'"));
             } else if (chLiteral.equals("'\\15'") || chLiteral.equals("'\\u000d'")) {// \r
-                error(visitLiteralPrint("'\\r'", "'\\u000d'", "'\\15'"));
+                error(visitLiteralPrint(line, "'\\r'", "'\\u000d'", "'\\15'"));
             } else if (chLiteral.equals(("'\\42'")) || chLiteral.equals("'\\u0022'")) {// \"
-                error(visitLiteralPrint("'\\\"'", "'\\u0022'", "'\\42'"));
+                error(visitLiteralPrint(line, "'\\\"'", "'\\u0022'", "'\\42'"));
             } else if (chLiteral.equals("'\\47'") || chLiteral.equals("'\\u0027'")) {// \'
-                error(visitLiteralPrint("'\\''", "'\\u0027'", "'\\47'"));
+                error(visitLiteralPrint(line, "'\\''", "'\\u0027'", "'\\47'"));
             } else if (chLiteral.equals("'\\134'") || chLiteral.equals("'\\u005c'")) {
-                error(visitLiteralPrint("'\\\\'", "'\\u005c'", "'\\134'"));
+                error(visitLiteralPrint(line, "'\\\\'", "'\\u005c'", "'\\134'"));
             }
         }
         return super.visitLiteral(ctx);

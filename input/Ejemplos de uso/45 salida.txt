@@ -1,0 +1,3 @@
+<linea:13> violacion la regla 4.5, el salto de linea debe ir antes del punto
+<linea:19> violacion la regla 4.5, el salto de linea debe ir antes de |
+<linea:31> violacion la regla 4.5, el salto de linea ir antes de &

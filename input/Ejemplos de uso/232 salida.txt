@@ -1,0 +1,24 @@
+<linea:4> violacion de la regla 2.3.2, debe ingresar la secuencia de escape especial: '\t', en vez la la secuencia de escape unicode: '\u0009', o la secuencia de escape octal: '\011'
+<linea:5> violacion de la regla 2.3.2, debe ingresar la secuencia de escape especial: '\t', en vez la la secuencia de escape unicode: '\u0009', o la secuencia de escape octal: '\011'
+<linea:6> violacion de la regla 2.3.2, debe ingresar la secuencia de escape especial: '\b', en vez la la secuencia de escape unicode: '\u0008', o la secuencia de escape octal: '\10'
+<linea:7> violacion de la regla 2.3.2, debe ingresar la secuencia de escape especial: '\b', en vez la la secuencia de escape unicode: '\u0008', o la secuencia de escape octal: '\10'
+<linea:8> violacion de la regla 2.3.2, debe ingresar la secuencia de escape especial: '\n', en vez la la secuencia de escape unicode: '\u000a', o la secuencia de escape octal: '\12'
+<linea:9> violacion de la regla 2.3.2, debe ingresar la secuencia de escape especial: '\n', en vez la la secuencia de escape unicode: '\u000a', o la secuencia de escape octal: '\12'
+<linea:10> violacion de la regla 2.3.2, debe ingresar la secuencia de escape especial: '\f', en vez la la secuencia de escape unicode: '\u000c', o la secuencia de escape octal: '\14'
+<linea:11> violacion de la regla 2.3.2, debe ingresar la secuencia de escape especial: '\f', en vez la la secuencia de escape unicode: '\u000c', o la secuencia de escape octal: '\14'
+<linea:12> violacion de la regla 2.3.2, debe ingresar la secuencia de escape especial: '\r', en vez la la secuencia de escape unicode: '\u000d', o la secuencia de escape octal: '\15'
+<linea:13> violacion de la regla 2.3.2, debe ingresar la secuencia de escape especial: '\r', en vez la la secuencia de escape unicode: '\u000d', o la secuencia de escape octal: '\15'
+<linea:14> violacion de la regla 2.3.2, debe ingresar la secuencia de escape especial: '\"', en vez la la secuencia de escape unicode: '\u0022', o la secuencia de escape octal: '\42'
+<linea:15> violacion de la regla 2.3.2, debe ingresar la secuencia de escape especial: '\"', en vez la la secuencia de escape unicode: '\u0022', o la secuencia de escape octal: '\42'
+<linea:16> violacion de la regla 2.3.2, debe ingresar la secuencia de escape especial: '\'', en vez la la secuencia de escape unicode: '\u0027', o la secuencia de escape octal: '\47'
+<linea:17> violacion de la regla 2.3.2, debe ingresar la secuencia de escape especial: '\'', en vez la la secuencia de escape unicode: '\u0027', o la secuencia de escape octal: '\47'
+<linea:18> violacion de la regla 2.3.2, debe ingresar la secuencia de escape especial: '\\', en vez la la secuencia de escape unicode: '\u005c', o la secuencia de escape octal: '\134'
+<linea:19> violacion de la regla 2.3.2, debe ingresar la secuencia de escape especial: '\\', en vez la la secuencia de escape unicode: '\u005c', o la secuencia de escape octal: '\134'
+<linea:9> Violación de la regla 5.2.5, los nombres de las no constantes son en lowerCamelCase
+<linea:11> Violación de la regla 5.2.5, los nombres de las no constantes son en lowerCamelCase
+<linea:13> Violación de la regla 5.2.5, los nombres de las no constantes son en lowerCamelCase
+<linea:15> Violación de la regla 5.2.5, los nombres de las no constantes son en lowerCamelCase
+<linea:16> Violación de la regla 5.2.5, los nombres de las no constantes son en lowerCamelCase
+<linea:17> Violación de la regla 5.2.5, los nombres de las no constantes son en lowerCamelCase
+<linea:18> Violación de la regla 5.2.5, los nombres de las no constantes son en lowerCamelCase
+<linea:19> Violación de la regla 5.2.5, los nombres de las no constantes son en lowerCamelCase

@@ -1,0 +1,11 @@
+<linea:2> violacion de la regla 3.3.3, Los import tienen el siguiente orden:
+1.Todos los import estaticos en un solo bloque.
+2.Todos los import no estaticos en un solo bloque.
+
+<linea:3> violacion de la regla 3.3.3, Los import tienen el siguiente orden:
+1.Todos los import estaticos en un solo bloque.
+2.Todos los import no estaticos en un solo bloque.
+
+<linea:4> violacion de la regla 3.3.3, Los import tienen el siguiente orden:
+1.Todos los import estaticos en un solo bloque.
+2.Todos los import no estaticos en un solo bloque.

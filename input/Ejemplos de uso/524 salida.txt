@@ -1,0 +1,1 @@
+<linea:3> violacion la regla 5.2.4, los nombres de las constantes solo pueden usar mayusculas y underscore

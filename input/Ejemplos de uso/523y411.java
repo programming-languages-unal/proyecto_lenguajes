@@ -4,7 +4,7 @@ class TestFourthRule{
         int a=0;
         /**/
         if(a>0)
-            System.out.println("asasd");//error 4.1.1 no se admiten if sin {}
+            System.out.println("ey");//error 4.1.1 no se admiten if sin {}
 
         /**/
         if(a<0){//no saca error
@@ -16,38 +16,38 @@ class TestFourthRule{
 
         /**/
         if(a<0)//saca error
-            System.out.println("filsd");
+            System.out.println("print");
         else//saca error
-            System.out.println("sd");
+            System.out.println("value");
 
         /**/
         for(int i=0;i<10;i++){//no saca error
-            System.out.println("hsdl");
+            System.out.println("for");
         }
 
         for(int i=0;i<10;i++)//Saca error 4.1.1 por no tener brackets
-            System.out.println("sdsd");
+            System.out.println("for");
 
         List<Integer>as=new ArrayList<>();
         for (int i :as){//no saca error
-            System.out.println("sdsda");
+            System.out.println("valor");
         }
 
         for(int i:as)//saca error 4.1.1
-            System.out.println("sdsd");
+            System.out.println("foeach");
 
         do{//no saca error
-            System.out.println("sda");}
+            System.out.println("do");}
         while(a>0);
         do//saca error 4.1.1
-            System.out.println("sda");
+            System.out.println("dowhile");
         while(a>0);
 
         while(a>0){//no saca error
-            System.out.println("asdafg");
+            System.out.println("while");
         }
         while(a>0)//saca error 4.1.1
-            System.out.println("sdsd");
+            System.out.println("whiea");
         /*
         *
         *

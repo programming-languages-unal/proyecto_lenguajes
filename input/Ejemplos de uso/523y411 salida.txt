@@ -1,0 +1,15 @@
+<linea:40> Violación de la regla 4.1.2, } debe tener un salto de linea o un { antes
+<linea:41> Violación de la regla 4.8.2.2, la variable local a fue utilizada muy lejos de su inicializacion
+<linea:44> Violación de la regla 4.8.2.2, la variable local a fue utilizada muy lejos de su inicializacion
+<linea:46> Violación de la regla 4.8.2.2, la variable local a fue utilizada muy lejos de su inicializacion
+<linea:49> Violación de la regla 4.8.2.2, la variable local a fue utilizada muy lejos de su inicializacion
+<linea:3> violacion la regla 5.2.3, los nombres de los metodos deben estar en lowerCamelCase sin underscore
+<linea:6> violacion la regla 4.1.1, no se permiten if sin abrir y cerrar los brackets {}
+<linea:14> violacion la regla 4.1.1,  no se permiten else sin abrir y cerrar los brackets {}
+<linea:18> violacion la regla 4.1.1, no se permiten if sin abrir y cerrar los brackets {}
+<linea:20> violacion la regla 4.1.1,  no se permiten else sin abrir y cerrar los brackets {}
+<linea:28> violacion la regla 4.1.1, no se permiten for sin brackets {}
+<linea:36> violacion la regla 4.1.1, no se permiten for each sin brackets {}
+<linea:42> violacion la regla 4.1.1, no se permite un do sin brackets {}
+<linea:49> violacion la regla 4.1.1, no se puede tener while sin brackets {}
+<linea:68> violacion la regla 6.2, no se pueden tener clausulas catch sin ningun statement

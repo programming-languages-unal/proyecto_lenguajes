@@ -1,0 +1,5 @@
+<linea:1> violacion la regla 4.8.5,se tienen varias anotaciones en la misma linea
+<linea:3> violacion la regla 4.8.5, se tienen varias anotaciones en la misma linea
+<linea:8> violacion la regla 4.8.5,se tienen varias anotaciones en la misma linea
+<linea:13> violacion la regla 4.8.5,Si hay mas de una anotacion la ultima no puede ir en la misma linea
+<linea:15> violacion la regla 4.8.5,se tienen varias anotaciones en la misma linea

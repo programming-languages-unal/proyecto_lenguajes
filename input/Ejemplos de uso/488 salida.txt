@@ -1,0 +1,6 @@
+<linea:2> violacion la regla 4.8.8, no se puede tener l como sufijo de un valor long
+<linea:3> violacion la regla 4.8.2.1, no se pueden declarar varias variables en un statement
+<linea:3> violacion la regla 4.8.8, no se puede tener l como sufijo de un valor long
+<linea:4> violacion la regla 4.8.8, no se puede tener l como sufijo de un valor long
+<linea:8> violacion la regla 4.8.2.1, no se pueden declarar varias variables en un statement
+<linea:8> violacion la regla 4.8.8, no se puede tener l como sufijo de un valor long

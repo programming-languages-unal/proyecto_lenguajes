@@ -1,0 +1,2 @@
+<linea:9> violacion la regla 4.8.2.1, no se pueden declarar varias variables en un statement
+<linea:13> violacion la regla 4.8.2.1, no se pueden declarar varias variables en un statement

@@ -1,0 +1,8 @@
+<linea:3> violacion de la regla 4.1.3. La declaracion de los metodos tiene que tener un bloque, puede ser vacio en algunos casos o con contenido
+<linea:10> violacion de la regla 4.1.3. No deben haber bloques vacios en un sentencia de bloques multiples, los bloques try no pueden estar vacios
+<linea:28> violacion de la regla 4.1.3. No deben haber bloques vacios en un sentencia de bloques multiples, los bloques finally no pueden estar vacios
+<linea:44> Violación de la regla 3.4.2, Los metodos deben estan en orden alfabetico, orden recomendado: [doNothing, doNothingElse, doNothingElse_2, doNothingElse_3, main]
+<linea:3> violacion la regla 5.2.3, los nombres de los metodos deben estar en lowerCamelCase sin underscore
+<linea:5> violacion la regla 5.2.3, los nombres de los metodos deben estar en lowerCamelCase sin underscore
+<linea:12> violacion la regla 6.2, no se pueden tener clausulas catch sin ningun statement
+<linea:15> violacion la regla 6.2, no se pueden tener clausulas catch sin ningun statement

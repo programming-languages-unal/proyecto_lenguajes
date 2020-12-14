@@ -1,5 +1,5 @@
 
-/*
+
 class Parent {
     void greeting(){
 
@@ -25,7 +25,7 @@ class Child extends Parent{
 interface Po{
     void dd();
 }
-*/
+
 
 interface MyInterface{
     void test();
@@ -38,7 +38,7 @@ class ChildInterface implements MyInterface{
     public void test() {//saca error 6.1 por  no tener override
     }
 
-    /*
+
     @Override//no saca error
     public void x() {
 
@@ -48,5 +48,5 @@ class ChildInterface implements MyInterface{
     public void dd() {
 
     }
-    */
+
 }

@@ -22,15 +22,10 @@ public class Main {
             StyleVisitor<Object> styleVisitor1 = new StyleVisitor<>();
             StyleVisitor2<Object> styleVisitor2 = new StyleVisitor2<>();
             StyleVisitor3<Object> styleVisitor3 = new StyleVisitor3<>();
-            //try{}catch (Exception e){}finally {}
-
-            //FileInputStream instream = null;
             PrintStream outstream = null;
 
             try {
-                //instream =  new  FileInputStream (INPUT);
                 outstream = new PrintStream(new FileOutputStream("output.txt"));
-                //System.setIn (instream);
                 System.setOut(outstream);
             } catch (Exception e) {
                 System.err.println("Error Occurred.");

@@ -38,8 +38,8 @@ public class Main {
 
             try {
                 styleVisitor1.visit(tree);
-                //styleVisitor2.visit(tree);
-                //styleVisitor3.visit(tree);
+                styleVisitor2.visit(tree);
+                styleVisitor3.visit(tree);
             } catch (Exception e) {
                 e.printStackTrace();
             }

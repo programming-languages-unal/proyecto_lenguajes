@@ -1,5 +1,7 @@
+<linea:17> Violación de la regla 3.4.2, Los metodos deben estan en orden alfabetico, orden recomendado: [cantar, myAction, myActions]
+<linea:6> Violación de la regla 4.8.3.2, Los brackets forman parte del tipo, no de la variable
 <linea:1> violacion la regla 4.8.5,se tienen varias anotaciones en la misma linea
 <linea:3> violacion la regla 4.8.5, se tienen varias anotaciones en la misma linea
-<linea:8> violacion la regla 4.8.5,se tienen varias anotaciones en la misma linea
-<linea:13> violacion la regla 4.8.5,Si hay mas de una anotacion la ultima no puede ir en la misma linea
-<linea:15> violacion la regla 4.8.5,se tienen varias anotaciones en la misma linea
+<linea:9> violacion la regla 4.8.5,se tienen varias anotaciones en la misma linea
+<linea:17> violacion la regla 4.8.5,Si hay mas de una anotacion la ultima no puede ir en la misma linea
+<linea:19> violacion la regla 4.8.5,se tienen varias anotaciones en la misma linea

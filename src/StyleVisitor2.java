@@ -264,7 +264,7 @@ public class StyleVisitor2 <T> extends Java9BaseVisitor {
     public Object visitIdentifier(Java9Parser.IdentifierContext ctx){
         if(LocalVariables.containsKey(ctx.getText())){
             int origin = LocalVariables.get(ctx.getText());
-            if(ctx.getStart().getLine() - origin > 30){
+            if(ctx.getStart().getLine() - origin > 1000){
                 error("<linea:"+ctx.getStart().getLine()+"> Violación de la regla 4.8.2.2, la variable local "+ctx.getText()+" fue utilizada muy lejos de su inicializacion");
             }
         }

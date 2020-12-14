@@ -1,6 +1,7 @@
-<linea:8> Violación de la regla 3.4.2, Los metodos deben estan en orden alfabetico, orden recomendado: [foo, fooA, greeting]
-<linea:19> Violación de la regla 3.4.2, Los metodos deben estan en orden alfabetico, orden recomendado: [foo, fooA, greeting]
-<linea:48> Violación de la regla 3.4.2, Los metodos deben estan en orden alfabetico, orden recomendado: [dd, test, x]
-<linea:16> violacion la regla 6.1, el metodo foo es heredado y no cuenta con la anotacion @Override
-<linea:19> violacion la regla 6.1,el metodo fooA es heredado  y no cuenta con anotaciones (Debe contar con la anotacion Override)
-<linea:38> violacion la regla 6.1, el metodo test es heredado y no cuenta con la anotacion @Override
+<linea:21> Violación de la regla 3.4.2, Los metodos deben estan en orden alfabetico, orden recomendado: [foo, fooA, greeting]
+<linea:9> Violación de la regla 4.8.4.3, Cada switch debe tener una sentencia default
+<linea:32> Violación de la regla 3.4.2, Los metodos deben estan en orden alfabetico, orden recomendado: [foo, fooA, greeting]
+<linea:61> Violación de la regla 3.4.2, Los metodos deben estan en orden alfabetico, orden recomendado: [dd, test, x]
+<linea:29> violacion la regla 6.1, el metodo foo es heredado y no cuenta con la anotacion @Override
+<linea:32> violacion la regla 6.1,el metodo fooA es heredado  y no cuenta con anotaciones (Debe contar con la anotacion Override)
+<linea:51> violacion la regla 6.1, el metodo test es heredado y no cuenta con la anotacion @Override

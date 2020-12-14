@@ -2,6 +2,19 @@
 
 class Parent {
     void greeting(){
+        int thevalue = 0;
+        switch (thevalue) {
+            case 1:
+            case 2:
+            case 3:
+        }
+
+        switch (thevalue) {
+            case 1:
+            case 2:
+            case 3:
+            default:
+        }
 
     }
     void foo(){}
